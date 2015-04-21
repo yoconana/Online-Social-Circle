@@ -1,0 +1,1 @@
+<html><body><h1>Friend List Page</h1></body></html>
