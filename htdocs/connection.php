@@ -3,6 +3,8 @@
 class DatabaseOperation{
 	public $mySQLdatabase;
 	
+	
+	
 	private $servername = 'localhost';
 	private $dbusername = 'root';
 	private $dbpassword = '123456';
