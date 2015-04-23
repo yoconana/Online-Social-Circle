@@ -1,5 +1,9 @@
 <html>
 
+
+
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style type="text/css">
 
 	#menu ul {
@@ -35,6 +39,7 @@
 	
 	
 </style>
+</head>
 
 <body>
 

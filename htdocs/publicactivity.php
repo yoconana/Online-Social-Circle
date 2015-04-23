@@ -6,7 +6,8 @@ session_start();
 <html>
 
 
-
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
 legend{font-weight:bold; font-size:24px;}
 
@@ -110,9 +111,6 @@ text-align:center;
 }
 
 </style>
-
-<head>
-
 </head>
 
 <body>
@@ -135,6 +133,9 @@ text-align:center;
    if(!isset($_SESSION['USERID'])){
 	   echo "<li><a href=\"registerPage.php\">Register</a></li>";
    }
+   else{
+	   echo "<li><a href=\"logout.php\">Log out</a></li>";
+   }
 ?>
 <!--<li><a href="registerPage.php">Register</a></li>-->
 </ul>
@@ -147,7 +148,7 @@ text-align:center;
 <div id="nav">
 <div id=“navmenu">
 <ul>
-<li><a href="publicactivity.php"> Activities </a></li>
+<li><a> Activities </a></li>
 <li><a href="friendslist.php">Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 <li><a href="userinfo.php"> Your Page </a></li>
@@ -179,7 +180,7 @@ text-align:center;
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 		<tr><td width = "200"><?php echo $row['ACTIVITYTITLE']; ?></td>
-			<td><form method="post" action="">
+			<td ><form method="post" action="activitydetails.php" onSubmit="return LoginCheck()">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
 			    </form>
@@ -212,6 +213,22 @@ text-align:center;
 
 DATABASE SYSTEMS PROJECRT 
 </div>
+
+<script language=JavaScript>
+<!--
+
+function LoginCheck()
+{
+  if(!isset($_SESSION['USERID']))
+  {
+    alert("Please Log in to see more details.");
+    LoginForm.email.focus();
+    return (false);
+  }
+}
+
+//-->
+</script>
 
 </body>
 </html>

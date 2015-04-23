@@ -9,6 +9,10 @@ if(!isset($_SESSION['USERID'])){
 
 ?>
 
+
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
 legend{font-weight:bold; font-size:24px;}
 
@@ -112,9 +116,10 @@ text-align:center;
 }
 
 </style>
+</head>
 
-<html>
 <body>
+
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
@@ -127,11 +132,11 @@ text-align:center;
 </div>
 
 <div id="nav">
-<div id=â€œnavmenu">
+<div id=¡°navmenu">
 <ul>
 <li><a href="userinfo.php">Your Activities</a></li>
-<li><a href="yourgrouplist.php">Your Groups</a></li>
-<li><a>Your Friends</a></li>
+<li><a>Your Groups</a></li>
+<li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
 </div> 
@@ -151,69 +156,71 @@ text-align:center;
 </fieldset>
 
 <fieldset>
-<legend>Your Friends:</legend>
+<legend>Your Groups:</legend>
 
 <?php
 	include('conn.php');
 	$tempuserid = $_SESSION['USERID'];
 	
-	$queryString = "SELECT USERS.USERID, USERS.USERNAME, USERS.EMAILADDR, USERS.BIRTHDATE, USERS.GENDER,FRELIST.RSST
-	FROM
-	((SELECT USERID2 USID,RELATIONSTATUS RSST
-	FROM FRIENDSHIP
-	WHERE FRIENDSHIP.USERID1 = $tempuserid)
-	UNION
-	(SELECT USERID1 USID,RELATIONSTATUS+10 RSST
-	FROM FRIENDSHIP
-	WHERE FRIENDSHIP.USERID2 = $tempuserid)) FRELIST, USERS
-	WHERE FRELIST.USID = USERS.USERID";
+	$queryString = "SELECT GROUPS.GROUPID, GROUPTITLE,GROUPDESCRIPTION,CREATETIME,IFMEMBER,IFINVITED,IFADMIN,IFAPPLYING
+		FROM GROUPS, USERCONNECTGROUP 
+		WHERE GROUPS.GROUPID = USERCONNECTGROUP.GROUPID
+		AND GROUPS.IFDISMISS = 0
+		AND USERCONNECTGROUP.USERID = $tempuserid";
 	$query_result = mysql_query($queryString,$db);
 ?>
 
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
-	<table>
+
+<table>
 	<tr>
-	<td width = "100px">UserName: </td>
-	<td width = "200px"><?php echo $row['USERNAME']; ?></td>
-	<td width = "100px">Gender: </td>
-	<td width = "200px">
-		<?php 
-		$tempgender = $row['GENDER']; 
-		if($tempgender == 1){
-			echo "Male";
-		}
-		else{
-			echo "Female";
-		}
-		?>
-	</td>
-	<td width = "100px">Relationship: </td>
-	<td>
-	<?php 
-		$tempStatus = $row['RSST']; 
-		if($tempStatus == 1||$tempStatus == 11){
-			echo "Friends";
-		}
-		else if($tempStatus == 0){
-			echo "Request Sent";
-		}
-		else if($tempStatus == 10){
-			$tempfrid = $row['USERID'];
-			echo '<form method="post" action="acceptinvatation.php">
-			    <input type="submit" name="action" value="Accept Invitation"/>
-				<input type="hidden" name="friendid" value="$tempfrid"/>
-			    </form>';
-		}
-	?>
-	</td>
+		<td width = "200"><?php echo $row['GROUPTITLE']; ?></td>
+		<td><form method="post" action="groupdetails.php">
+			    <input type="submit" name="action" value="Detail"/>
+				<input type="hidden" name="groupid" value="<?php echo $row['GROUPID']; ?>"/>
+			    </form></td>
+		</td>
 	</tr>
-	</table>
-	<hr>
+	<tr>
+		<td width = "200">Create Time: </td>
+		<td><?php echo $row['CREATETIME']; ?></td>
+	</tr>
+	<tr>
+		<td width = "200">Status: </td>
+		<td><?php 
+			if($row['IFADMIN'] == 1){
+				echo 'Admin';
+			}
+			else if($row['IFMEMBER'] == 1){
+				echo 'Member';
+			}
+			else if($row['IFINVITED'] == 1){
+				echo '<form method="post" action="">
+			    <input type="submit" name="action" value="Accept Invitation"/>
+				<input type="hidden" name="groupid" value="$row[\'GROUPID\']"/>
+			    </form>';
+			}
+			else if($row['IFAPPLYING'] == 1){
+				echo 'Applying';
+			}
+		?></td>
+	</tr>
+
+
+</table>
+<hr>
+
 <?php endwhile; 
 	  mysql_free_result($query_result);
 	  mysql_close($db); ?>
 
 </fieldset>
 
+<div id="footer">
+
+DATABASE SYSTEMS PROJECRT 
+</div>
+
 </body>
+
 </html>
