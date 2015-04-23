@@ -1,1 +1,0 @@
-<html><body><h1>Group List Page</h1></body></html>

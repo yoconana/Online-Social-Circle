@@ -1,10 +1,11 @@
 <?php 
 
+//might be some problems
+
 class DatabaseOperation{
 	public $mySQLdatabase;
 	
-	
-	
+	//public $outputResult;
 	private $servername = 'localhost';
 	private $dbusername = 'root';
 	private $dbpassword = '123456';
@@ -22,6 +23,8 @@ class DatabaseOperation{
 	public function closeDatabase(){
 		mysql_close($this -> mySQLdatabase);
 	}
+	
+	
 	
 	
 	public function UserRegiser($_username,$_password,$_email,$_gender){

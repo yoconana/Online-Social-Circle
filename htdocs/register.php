@@ -32,6 +32,8 @@
     padding: 8px 8px 8px 8px;
 	
 	}
+	
+	
 </style>
 
 <body>
@@ -71,6 +73,7 @@ include 'connection.php';
 	else{
 		echo 'Register Failed!<br />';
 		echo 'Click here <a href="javascript:history.back(-1);">Return</a> to try again';
+		exit;
 	}
 ?>
 </div>
