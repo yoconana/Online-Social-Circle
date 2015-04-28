@@ -3,7 +3,7 @@
 session_start();
 
 if(!isset($_SESSION['USERID'])){
-    header("Location:login.html");
+    header("Location:login.php");
     exit();
 }
 
@@ -133,6 +133,7 @@ text-align:center;
 <div id=“navmenu">
 <ul>
 <li><a>Your Activities</a></li>
+<li><a href="addactivity.php">Create new Activity</a></li>
 <li><a href="yourgrouplist.php">Your Groups</a></li>
 <li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>

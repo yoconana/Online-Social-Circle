@@ -3,7 +3,7 @@
 session_start();
 
 if(!isset($_SESSION['USERID'])){
-    header("Location:login.html");
+    header("Location:login.php");
     exit();
 	
 	
@@ -13,7 +13,7 @@ $activityid = $_POST['activityid'];
 
 ?>
 
-
+<html>
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
@@ -34,9 +34,13 @@ table{
 #nav {
     line-height:30px;
     background-color:#eeeeee;
-    
-    float:left;
-    padding:5px;	      
+    width:10%;
+    float:left;	      
+}
+
+#right {
+	float:right;
+	width:90%;
 }
 
 #mainpart {
@@ -123,9 +127,6 @@ text-align:center;
 </head>
 
 
-
-<html>
-
 <body>
 
 <div id="menu">
@@ -140,6 +141,8 @@ text-align:center;
 <h1>Social Activity Website</h1>
 </div>
 
+
+
 <div id="nav">
 <div id=¡°navmenu">
 <ul>
@@ -150,6 +153,8 @@ text-align:center;
 </div> 
 </div>
 
+
+<div id="right">
 <fieldset>
 
 <?php
@@ -163,17 +168,27 @@ $queryString = "SELECT *
 	AND ACTIVITIES.ACTIVITYID = $activityid
 	AND USERCONNECTACTIVITY.USERID = $tempuserid";
 	$query_result = mysql_query($queryString,$db);
-	$comletelyNewmember = 0;
+	$comletelyNewmember = 1;
+	$ifcreator = 0;
+	$ifinvited = 0;
+	$ifapplying = 0;
 	if(mysql_num_rows($query_result) > 0){
-		$comletelyNewmember = 1;
+		$comletelyNewmember = 0;
+		$activityinfo = mysql_fetch_array($query_result);
+		if($activityinfo['IFCREATOR'] == 1){
+			$ifcreator = 1;
+		}
+		$ifinvited = $activityinfo['IFINVITED'];
+		$ifapplying = $activityinfo['IFAPPLYING'];
 	}
 	else{
 		$queryString = "SELECT *
 		FROM ACTIVITIES
 		WHERE ACTIVITYID = $activityid";
 		$query_result = mysql_query($queryString,$db);
+		$activityinfo = mysql_fetch_array($query_result);
 	}
-	$activityinfo = mysql_fetch_array($query_result);
+	
 ?>
 <legend><?php
 	echo $activityinfo['ACTIVITYTITLE'];
@@ -187,8 +202,38 @@ $queryString = "SELECT *
 	<tr><td width="200">Time: </td>
 	    <td><?php echo $activityinfo['ACTIVITYTIME'];?></td>
 	</tr>
-	<tr><td width="200">Location: </td>
+	<tr><td width="200">Description: </td>
 		<td><?php echo $activityinfo['ACTIVITYDESCRIPTION'];?></td>
+	</tr>
+	<tr><td width="200"></td>
+	<td>
+	<?php
+	if($ifcreator == 1){
+		//creator. need edit button
+		echo '<form method="post" action="sendactinvite.php">
+			    <input type="submit" name="action" value="Send Invitation to Your Friends"/>
+				<input type="hidden" name="activityid" value="$activityid"/>
+			    </form>';
+	}
+	else if($comletelyNewmember == 1){
+		echo '<form method="post" action="adduserasactmember.php">
+			    <input type="submit" name="action" value="Apply"/>
+				<input type="hidden" name="activityid" value="$activityid"/>
+				<input type="hidden" name="activityuserid" value = "$tempuserid"/>
+			    </form>';
+	}
+	else if($ifinvited == 1){
+		echo '<form method="post" action="adduserasactmember.php">
+			    <input type="submit" name="action" value="Accept"/>
+				<input type="hidden" name="activityid" value="$activityid"/>
+				<input type="hidden" name="activityuserid" value = "$tempuserid"/>
+			    </form>';
+	}
+	else if($ifapplying == 1){
+		echo 'Applying';
+	}
+	?>
+	</td>
 	</tr>
 </table>
 <hr>
@@ -197,7 +242,86 @@ $queryString = "SELECT *
 <fieldset>
 <legend>List of Participants</legend>
 
-</fieldset>
+<?php
+include('conn.php');
 	
+$tempuserid = $_SESSION['USERID'];
+
+$queryString = "SELECT USERS.USERID,USERNAME,EMAILADDR,GENDER,IFATTEND,IFINVITED,IFCREATOR,IFAPPLYING,APPLYREASON
+	FROM USERS,USERCONNECTACTIVITY
+	WHERE USERS.USERID = USERCONNECTACTIVITY.USERID
+	AND USERCONNECTACTIVITY.ACTIVITYID = $activityid";
+$query_result = mysql_query($queryString,$db);
+?>
+
+<?php while ($row = mysql_fetch_array($query_result)) : ?>
+<table>
+	<tr>
+		<td width="10%">Username: </td>
+		<td width="10%"><?php echo $row['USERNAME']; ?></td>
+		<td width="10%">Email Address: </td>
+		<td width="10%"><?php echo $row['EMAILADDR']; ?></td>
+		<td width="10%">Gender: </td>
+		<td width="10%"><?php 
+			if($row['GENDER'] == 1){
+				echo 'Male';
+			}
+			else{
+				echo 'Female';
+			}
+		?></td>
+		<td width="10%">Status: </td>
+		<td width="10%"><?php
+			if($row['IFCREATOR'] == 1){
+				echo 'Creator';
+			}
+			else if($row['IFATTEND'] == 1){
+				echo 'Member';
+			}
+			else if($row['IFINVITED'] == 1){
+				echo 'Invited';
+			}
+			else{
+				echo 'Applying';
+			}
+		?></td>
+		<td width="10%"><?php 
+			if($ifcreator == 1){
+				//creator
+				if($row['IFCREATOR'] == 1){
+					echo '-';
+				}
+				else if($row['IFATTEND'] == 1){
+					echo '<form method="post" action="deleteuserfromac.php">
+					<input type="submit" name="action" value="Delete"/>
+					<input type="hidden" name="activityid" value="$activityid"/>
+					<input type="hidden" name="deleteuserid" value = "$row[\'USERID\']"/>
+					</form>';
+				}
+				else if($row['IFINVITED'] == 1){
+					echo '-';
+				}
+				else{
+					echo '<form method="post" action="adduserasactmember.php">
+					<input type="submit" name="action" value="Accept"/>
+					<input type="hidden" name="activityid" value="$activityid"/>
+					<input type="hidden" name="activityuserid" value = "$row[\'USERID\']"/>
+					</form>';
+				}
+			}
+		?></td>
+	</tr>
+</table>
+<hr>
+<?php endwhile; 
+	  mysql_free_result($query_result);
+	  mysql_close($db); ?>
+
+</fieldset>
+</div>
+
+<div>
+
+</div>
 </body>
 </html>

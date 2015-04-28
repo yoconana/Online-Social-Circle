@@ -75,7 +75,7 @@ if($result = mysql_fetch_array($user_query)){
 	$_SESSION['EMAILADDR'] = $result['EMAILADDR'];
 	$tempuser = $result['USERNAME'];
 	
-	echo 'Welcome, $tempuser! You can go to our <a href="publicactivity.php">Public Page</a>';
+	echo 'Welcome, $tempuser ! You can go to our <a href="publicactivity.php">Public Page</a>';
 	exit;
 }
 else{

@@ -7,8 +7,17 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-?>
+if (isset($_POST['keyword'])){
+	$friendKeyword = $_POST['keyword'];
+}
+else{
+	$friendKeyword = "";
+}
+	
 
+
+
+?>
 
 <html>
 <head>
@@ -31,9 +40,13 @@ table{
 #nav {
     line-height:30px;
     background-color:#eeeeee;
-    
-    float:left;
-    padding:5px;	      
+    width:15%;
+    float:left;	      
+}
+
+#right {
+	float:right;
+	width:85%;
 }
 
 #mainpart {
@@ -116,6 +129,7 @@ text-align:center;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -129,97 +143,126 @@ text-align:center;
 
 <div id="header">
 <h1>Social Activity Website</h1>
+
 </div>
 
 <div id="nav">
 <div id=¡°navmenu">
 <ul>
 <li><a href="userinfo.php">Your Activities</a></li>
-<li><a>Your Groups</a></li>
+<li><a href="yourgrouplist.php">Your Groups</a></li>
 <li><a href="friendslist.php">Your Friends</a></li>
+<li><a>Add new Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
 </div> 
 </div>
 
-<fieldset>
-<legend>Personal Information:</legend>
-<table>
-	<tr><td width="200">User Name: </td>
-	    <td><?php echo $_SESSION['USERNAME'];?></td>
-	</tr>
-	<tr><td width="200">Email Address: </td>
-	    <td><?php echo $_SESSION['EMAILADDR'];?></td>
-	</tr>
-</table>
-
-</fieldset>
+<div id="right">
 
 <fieldset>
-<legend>Your Groups:</legend>
 
+<legend>Search for New Friends</legend>
+
+<form name="searchForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onSubmit="return InputCheck(this)">
+		<p>
+		<label for="keyword" class="label">Keyword: </label>
+		<input id="keyword" name="keyword" type="text" class="input" />
+		<span>*</span>
+		<p/>
+		
+		<p>
+		<input type="submit" name="submit" value="Search" class="left" />
+		</p>
+</form>
+
+<?php if ($friendKeyword != ""): ?>
 <?php
 	include('conn.php');
 	$tempuserid = $_SESSION['USERID'];
 	
-	$queryString = "SELECT GROUPS.GROUPID, GROUPTITLE,GROUPDESCRIPTION,CREATETIME,IFMEMBER,IFINVITED,IFADMIN,IFAPPLYING
-		FROM GROUPS, USERCONNECTGROUP 
-		WHERE GROUPS.GROUPID = USERCONNECTGROUP.GROUPID
-		AND GROUPS.IFDISMISS = 0
-		AND USERCONNECTGROUP.USERID = $tempuserid";
+	$queryString = "SELECT * FROM USERS 
+	WHERE 
+	USERID <> $tempuserid
+	AND (USERNAME LIKE '%$friendKeyword%' OR EMAILADDR LIKE '%$friendKeyword%')
+	AND
+	USERID NOT IN
+	(SELECT USERS.USERID
+	FROM
+	((SELECT USERID2 USID,RELATIONSTATUS RSST
+	FROM FRIENDSHIP
+	WHERE FRIENDSHIP.USERID1 = $tempuserid)
+	UNION
+	(SELECT USERID1 USID,RELATIONSTATUS+10 RSST
+	FROM FRIENDSHIP
+	WHERE FRIENDSHIP.USERID2 = $tempuserid)) FRELIST, USERS
+	WHERE FRELIST.USID = USERS.USERID)";
 	$query_result = mysql_query($queryString,$db);
 ?>
 
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
-
-<table>
+	<table>
+	
 	<tr>
-		<td width = "200"><?php echo $row['GROUPTITLE']; ?></td>
-		<td><form method="post" action="groupdetails.php">
-			    <input type="submit" name="action" value="Detail"/>
-				<input type="hidden" name="groupid" value="<?php echo $row['GROUPID']; ?>"/>
-			    </form></td>
-		</td>
+	<td width = "10%">UserName: </td>
+	<td width = "10%"><?php echo $row['USERNAME']; ?></td>
+	<td width = "10%">Email: </td>
+	<td width = "10%"><?php echo $row['EMAILADDR']; ?></td>
+	<td width = "10%">Gender: </td>
+	<td width = "10%">
+		<?php 
+		$tempgender = $row['GENDER']; 
+		if($tempgender == 1){
+			echo "Male";
+		}
+		else{
+			echo "Female";
+		}
+		?>
+	</td>
+	<td>
+		<form method="post" action="checkandsendFriendRequest.php">
+		<input type="submit" name = "action" value="Add" class="left"/>
+		<input type="hidden" name="friendid" value="<?php echo $row['USERID'];?>"/>
+		</form>
+	</td>
 	</tr>
-	<tr>
-		<td width = "200">Create Time: </td>
-		<td><?php echo $row['CREATETIME']; ?></td>
-	</tr>
-	<tr>
-		<td width = "200">Status: </td>
-		<td><?php 
-			if($row['IFADMIN'] == 1){
-				echo 'Admin';
-			}
-			else if($row['IFMEMBER'] == 1){
-				echo 'Member';
-			}
-			else if($row['IFINVITED'] == 1){
-				echo '<form method="post" action="">
-			    <input type="submit" name="action" value="Accept Invitation"/>
-				<input type="hidden" name="groupid" value="$row[\'GROUPID\']"/>
-			    </form>';
-			}
-			else if($row['IFAPPLYING'] == 1){
-				echo 'Applying';
-			}
-		?></td>
-	</tr>
-
-
-</table>
-<hr>
-
+	
+	</table>
+	<hr>
 <?php endwhile; 
 	  mysql_free_result($query_result);
 	  mysql_close($db); ?>
 
+
+<?php endif; ?> 
+
+
+
+
+
+
 </fieldset>
 
-<div id="footer">
 
-DATABASE SYSTEMS PROJECRT 
+
 </div>
+
+<script language=JavaScript>
+<!--
+
+function InputCheck(searchForm)
+{
+   if (searchForm.keyword.value == "")
+  {
+    alert("Key word cannot be empty!");
+    LoginForm.keyword.focus();
+    return (false);
+  }
+}
+
+//-->
+</script>
 
 </body>
 

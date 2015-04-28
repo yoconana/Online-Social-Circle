@@ -1,6 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <html>
-
+<head>
 <style>
 
 	fieldset{width:400px; margin: 0 auto;}
@@ -65,7 +65,7 @@ text-align:center;
 
 </style>
 
-<head>
+
 </head>
 
 <body>
@@ -113,7 +113,7 @@ DATABASE SYSTEMS PROJECRT
 <script language=JavaScript>
 <!--
 
-function InputCheck(RegForm)
+function InputCheck(LoginForm)
 {
    if (LoginForm.email.value == "")
   {

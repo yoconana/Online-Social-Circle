@@ -3,9 +3,11 @@
 session_start();
 
 if(!isset($_SESSION['USERID'])){
-    header("Location:login.html");
+    header("Location:login.php");
     exit();
 }
+
+$searchfriendkeyword = "";
 
 ?>
 
@@ -132,6 +134,7 @@ text-align:center;
 <li><a href="userinfo.php">Your Activities</a></li>
 <li><a href="yourgrouplist.php">Your Groups</a></li>
 <li><a>Your Friends</a></li>
+<li><a href="addnewfriends.php">Add new Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
 </div> 
