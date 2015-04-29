@@ -143,11 +143,11 @@ text-align:center;
 </div>
 
 <div id="nav">
-<div id="navmenu">
+
 <ul>
 <li><a href="activitydetails.php?activityid=<?php echo $activityId;?>">GO BACK</a></li>
 </ul>
-</div> 
+
 </div>
 
 
