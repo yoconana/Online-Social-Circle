@@ -7,8 +7,8 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-$friendUserId = $_POST['friendid'];
 $personalUserId = $_SESSION['USERID'];
+$friendUserId = $_POST['friendid'];
 ?>
 
 <html>
@@ -125,6 +125,7 @@ text-align:center;
 </head>
 
 <body>
+
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
@@ -138,26 +139,15 @@ text-align:center;
 
 <?php
 	include('conn.php');
-	$queryString = "SELECT *
-		FROM FRIENDSHIP
-		WHERE 
-		(USERID1 = $friendUserId AND USERID2 = $personalUserId)
-		OR (USERID1 = $personalUserId AND USERID2 = $friendUserId)";
-	$query_result = mysql_query($queryString,$db);
-	
-	if(mysql_num_rows($query_result) > 0){
-		echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
+	$queryString = "UPDATE FRIENDSHIP
+	SET RELATIONSTATUS = 1
+	WHERE (USERID1 = $personalUserId AND USERID2 = $friendUserId)
+	OR (USERID1 = $friendUserId AND USERID2 = $personalUserId)";
+	if(mysql_query($queryString,$db)){
+		echo 'Now you are friends! Please check the <a href="friendslist.php">friends list</a> for more information.';
 	}
 	else{
-		$queryString = "INSERT INTO FRIENDSHIP(USERID1,USERID2,RELATIONSTATUS)
-						VALUES($personalUserId,$friendUserId,0)";
-		if(mysql_query($queryString,$db)){
-			//insert succeed
-			echo 'Request Sent! Please check your <a href="friendslist.php">friends list</a>.';
-		}
-		else{
-			echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
-		}
+		echo 'Failed! Please check the <a href="friendslist.php">friends list</a> for more information.';
 	}
 	
 	mysql_free_result($query_result);

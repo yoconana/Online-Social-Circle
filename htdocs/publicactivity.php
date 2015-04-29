@@ -181,7 +181,7 @@ text-align:center;
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 		<tr><td width = "200"><?php echo $row['ACTIVITYTITLE']; ?></td>
-			<td ><form method="post" action="activitydetails.php" onSubmit="return LoginCheck()">
+			<td ><form method="get" action="activitydetails.php" onSubmit="return LoginCheck()">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
 			    </form>

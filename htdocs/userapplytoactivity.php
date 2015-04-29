@@ -7,8 +7,9 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-$friendUserId = $_POST['friendid'];
-$personalUserId = $_SESSION['USERID'];
+//$personalUserId = $_SESSION['USERID'];
+$activityId = $_POST['activityid'];
+$activityUserid = $_POST['activityuserid'];
 ?>
 
 <html>
@@ -125,6 +126,7 @@ text-align:center;
 </head>
 
 <body>
+
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
@@ -136,33 +138,23 @@ text-align:center;
 <h1>Social Activity Website</h1>
 </div>
 
-<?php
-	include('conn.php');
-	$queryString = "SELECT *
-		FROM FRIENDSHIP
-		WHERE 
-		(USERID1 = $friendUserId AND USERID2 = $personalUserId)
-		OR (USERID1 = $personalUserId AND USERID2 = $friendUserId)";
-	$query_result = mysql_query($queryString,$db);
-	
-	if(mysql_num_rows($query_result) > 0){
-		echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
-	}
-	else{
-		$queryString = "INSERT INTO FRIENDSHIP(USERID1,USERID2,RELATIONSTATUS)
-						VALUES($personalUserId,$friendUserId,0)";
-		if(mysql_query($queryString,$db)){
-			//insert succeed
-			echo 'Request Sent! Please check your <a href="friendslist.php">friends list</a>.';
-		}
-		else{
-			echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
-		}
-	}
-	
-	mysql_free_result($query_result);
-	mysql_close($db);
-?>
+<fieldset>
+<legend>Please Input Your Reason For Applying</legend>
+
+<form action="userapplyactresult.php" id="ApplyForm" method="post">
+<p>Reason</p>
+<p>
+<textarea id="applytext"  cols="100" rows ="5" name="applytext"></textarea>
+</p>
+<input type="hidden" name="activityid" value="<?php echo $activityId;?>"/>
+<input type="hidden" name="activityuserid" value="<?php echo $activityUserid;?>"/>
+<p>
+<input type="submit" name="submit" value="Apply" class="left" />
+</p>
+
+</form>
+
+</fieldset>
 
 </body>
 

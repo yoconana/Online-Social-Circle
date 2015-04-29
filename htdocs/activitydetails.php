@@ -9,7 +9,7 @@ if(!isset($_SESSION['USERID'])){
 	
 }
 
-$activityid = $_POST['activityid'];
+$activityid = $_GET['activityid'];
 
 ?>
 
@@ -212,21 +212,21 @@ $queryString = "SELECT *
 		//creator. need edit button
 		echo '<form method="post" action="sendactinvite.php">
 			    <input type="submit" name="action" value="Send Invitation to Your Friends"/>
-				<input type="hidden" name="activityid" value="$activityid"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 			    </form>';
 	}
 	else if($comletelyNewmember == 1){
-		echo '<form method="post" action="adduserasactmember.php">
+		echo '<form method="post" action="userapplytoactivity.php">
 			    <input type="submit" name="action" value="Apply"/>
-				<input type="hidden" name="activityid" value="$activityid"/>
-				<input type="hidden" name="activityuserid" value = "$tempuserid"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
+				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
 			    </form>';
 	}
 	else if($ifinvited == 1){
 		echo '<form method="post" action="adduserasactmember.php">
 			    <input type="submit" name="action" value="Accept"/>
-				<input type="hidden" name="activityid" value="$activityid"/>
-				<input type="hidden" name="activityuserid" value = "$tempuserid"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
+				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
 			    </form>';
 	}
 	else if($ifapplying == 1){
@@ -294,8 +294,8 @@ $query_result = mysql_query($queryString,$db);
 				else if($row['IFATTEND'] == 1){
 					echo '<form method="post" action="deleteuserfromac.php">
 					<input type="submit" name="action" value="Delete"/>
-					<input type="hidden" name="activityid" value="$activityid"/>
-					<input type="hidden" name="deleteuserid" value = "$row[\'USERID\']"/>
+					<input type="hidden" name="activityid" value="'.$activityid.'"/>
+					<input type="hidden" name="deleteuserid" value = "'.$row['USERID'].'"/>
 					</form>';
 				}
 				else if($row['IFINVITED'] == 1){
@@ -304,8 +304,8 @@ $query_result = mysql_query($queryString,$db);
 				else{
 					echo '<form method="post" action="adduserasactmember.php">
 					<input type="submit" name="action" value="Accept"/>
-					<input type="hidden" name="activityid" value="$activityid"/>
-					<input type="hidden" name="activityuserid" value = "$row[\'USERID\']"/>
+					<input type="hidden" name="activityid" value="'.$activityid.'"/>
+					<input type="hidden" name="activityuserid" value = "'.$row['USERID'].'"/>
 					</form>';
 				}
 			}

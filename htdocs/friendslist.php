@@ -204,7 +204,7 @@ text-align:center;
 			$tempfrid = $row['USERID'];
 			echo '<form method="post" action="acceptinvatation.php">
 			    <input type="submit" name="action" value="Accept Invitation"/>
-				<input type="hidden" name="friendid" value="$tempfrid"/>
+				<input type="hidden" name="friendid" value="'.$tempfrid.'"/>
 			    </form>';
 		}
 	?>
