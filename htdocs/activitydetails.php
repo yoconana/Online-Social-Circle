@@ -144,13 +144,11 @@ text-align:center;
 
 
 <div id="nav">
-<div id=¡°navmenu">
 <ul>
 <li><a href="userinfo.php">Profile</a></li>
 <li><a href="friendslist.php">Friends</a></li>
 <li><a href="search.php">Search</a></li>
 </ul>
-</div> 
 </div>
 
 
