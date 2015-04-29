@@ -7,16 +7,21 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-//$personalUserId = $_SESSION['USERID'];
+$personalUserId = $_SESSION['USERID'];
 $activityId = $_POST['activityid'];
-$applyTextString = $_POST['applytext'];
-$activityUserid = $_POST['activityuserid'];
+
+if(!empty($_POST['friendid_list'])){
+
+}
+else{
+	header("Location:sendactinvite.php");
+	exit();
+}
 ?>
 
 <html>
-
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
 legend{font-weight:bold; font-size:24px;}
 
@@ -137,21 +142,43 @@ text-align:center;
 <div id="header">
 <h1>Social Activity Website</h1>
 </div>
-
 <?php
 	include('conn.php');
-	$queryString = "INSERT INTO USERCONNECTACTIVITY(USERID,ACTIVITYID,IFATTEND,IFINVITED,IFCREATOR,IFAPPLYING,APPLYREASON)
-	VALUES($activityUserid,$activityId,0,0,0,1,'$applyTextString')";
-	if(mysql_query($queryString,$db)){
-		echo 'Request Sent. Go back to the <a href="activitydetails.php?activityid='.$activityId.'">activity page</a>.';
-	}
-	else{
-		echo 'Failed to send Request! Go back to the <a href="activitydetails.php?activityid='.$activityId.'">activity page</a> and try again.';
+	foreach($_POST['friendid_list'] as $inviteuserid){
+		$queryString = "SELECT *
+		FROM USERCONNECTACTIVITY
+		WHERE USERID = $inviteuserid AND ACTIVITYID = $activityId";
+		$query_result = mysql_query($queryString,$db);
+		if(mysql_num_rows($query_result) > 0){
+			//update
+			$queryString = "UPDATE USERCONNECTACTIVITY
+			SET IFINVITED = 1
+			WHERE USERID = $inviteuserid AND ACTIVITYID = $activityId";
+			if(mysql_query($queryString,$db)){
+				
+			}
+			else{
+				echo 'Invite Failed! Please <a href="activitydetails.php?activityid='.$activityId.'">go back</a> to try again';
+				exit;
+			}
+		}
+		else{
+			//insert
+			$queryString = "INSERT INTO USERCONNECTACTIVITY
+				VALUES($inviteuserid,$activityId,0,1,0,0,'')";
+				//echo $queryString;
+			if(mysql_query($queryString,$db)){
+				
+			}
+			else{
+				echo 'Invite Failed! Please <a href="activitydetails.php?activityid='.$activityId.'">go back</a> to try again';
+				exit;
+			}
+		}
 	}
 	mysql_free_result($query_result);
 	mysql_close($db);
+	echo 'Invite Succeed! Please go to your <a href="activitydetails.php?activityid='.$activityId.'">activity page</a>.';
 ?>
-
 </body>
-
 </html>

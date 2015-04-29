@@ -136,6 +136,7 @@ text-align:center;
 <ul>
 <li><a href="userinfo.php">Your Activities</a></li>
 <li><a>Your Groups</a></li>
+<li><a href="addgroup.php">Create New Group</a></li>
 <li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>

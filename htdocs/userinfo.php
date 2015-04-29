@@ -163,7 +163,7 @@ text-align:center;
 	$tempuserid = $_SESSION['USERID'];
 	
 	$queryString = "SELECT USERS.USERID, ACTIVITIES.ACTIVITYID, ACTIVITIES.ACTIVITYTITLE, ACTIVITIES.ACTIVITYTIME,
-	ACTIVITIES.ACTIVITYLOCATION, ACTIVITIES.ACTIVITYDESCRIPTION, IFAPPLYING, IFINVITED, IFCREATOR
+	ACTIVITIES.ACTIVITYLOCATION, ACTIVITIES.ACTIVITYDESCRIPTION, IFATTEND,IFAPPLYING, IFINVITED, IFCREATOR
 	FROM USERS, USERCONNECTACTIVITY, ACTIVITIES
 	WHERE USERS.USERID = USERCONNECTACTIVITY.USERID
 	AND USERCONNECTACTIVITY.ACTIVITYID = ACTIVITIES.ACTIVITYID 
@@ -187,6 +187,9 @@ text-align:center;
 		    if($row['IFCREATOR'] == 1){
 				echo "Creator";
 			}
+			else if($row['IFATTEND'] == 1){
+				echo "Member";
+			}
 			else if($row['IFINVITED'] == 1){
 				echo '<form method="post" action="">
 			    <input type="submit" name="action" value="Accept Invitation"/>
@@ -195,9 +198,6 @@ text-align:center;
 			}
 			else if($row['IFAPPLYING'] == 1){
 				echo "Applying...";
-			}
-			else{
-				echo "Member";
 			}
 		?>
 		</td>

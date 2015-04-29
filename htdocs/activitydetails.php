@@ -172,6 +172,7 @@ $queryString = "SELECT *
 	$ifcreator = 0;
 	$ifinvited = 0;
 	$ifapplying = 0;
+	$ifmember = 0;
 	if(mysql_num_rows($query_result) > 0){
 		$comletelyNewmember = 0;
 		$activityinfo = mysql_fetch_array($query_result);
@@ -180,6 +181,7 @@ $queryString = "SELECT *
 		}
 		$ifinvited = $activityinfo['IFINVITED'];
 		$ifapplying = $activityinfo['IFAPPLYING'];
+		$ifmember = $activityinfo['IFATTEND'];
 	}
 	else{
 		$queryString = "SELECT *
@@ -221,6 +223,9 @@ $queryString = "SELECT *
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
 			    </form>';
+	}
+	else if($ifmember == 1){
+		echo 'Member';
 	}
 	else if($ifinvited == 1){
 		echo '<form method="post" action="adduserasactmember.php">
