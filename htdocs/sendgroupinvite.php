@@ -7,17 +7,17 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-if(!isset($_POST['activityid'])){
+if(!isset($_POST['groupid'])){
 	exit('Illegal Access Not Permitted!');
 }
 
 $personalUserId = $_SESSION['USERID'];
-$activityId = $_POST['activityid'];
+$groupId = $_POST['groupid'];
 ?>
 
 <html>
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
 
 fieldset{width:600px; margin: 0 auto;}
@@ -128,8 +128,6 @@ text-align:center;
 
 </style>
 </head>
-
-
 <body>
 <div id="menu">
 <ul>
@@ -145,13 +143,10 @@ text-align:center;
 <div id="nav">
 
 <ul>
-<li><a href="activitydetails.php?activityid=<?php echo $activityId;?>">GO BACK</a></li>
+<li><a href="groupdetails.php?groupid=<?php echo $groupId;?>">GO BACK</a></li>
 </ul>
 
 </div>
-
-
-
 
 <?php
 	include('conn.php');
@@ -171,16 +166,18 @@ text-align:center;
 	WHERE FRIDLIST.FRID = USERS.USERID
 	AND USERID NOT IN
 	(SELECT USERID
-	FROM USERCONNECTACTIVITY
-	WHERE USERCONNECTACTIVITY.ACTIVITYID = $activityId)";
+	FROM USERCONNECTGROUP
+	WHERE USERCONNECTGROUP.GROUPID = $groupId)";
 	$query_result = mysql_query($queryString,$db);
 ?>
+
 <div id="right">
 <fieldset>
-<legend>Invite your Friends to attend your Activity:</legend>
-<form name = "inviteForm" action = "invitetoactivityresult.php" method="post" onSubmit="return InputCheck(this)">
+<legend>Invite your Friends to attend your Group:</legend>
+<?php if(mysql_num_rows($query_result) > 0): ?>
+
+<form name = "inviteForm" action = "invitetogroupresult.php" method="post" onSubmit="return InputCheck(this)">
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
-	
 	<table>
 	<tr>
 	<td width = "20%">
@@ -199,9 +196,14 @@ text-align:center;
 <?php endwhile; 
 	  mysql_free_result($query_result);
 	  mysql_close($db); ?>
-	<input type = "hidden" name = "activityid" value = "<?php echo $activityId;?>"/>
+	<input type = "hidden" name = "groupid" value = "<?php echo $groupId;?>"/>
 	<input type = "submit" name="action" value = "Submit" class="left" />
-	  
+	
+<?php else: ?>
+	You have no more friends to be invited.Please <a href="groupdetails.php?groupid=<?php echo $groupId;?>">GO BACK</a>.
+<?php endif; ?>
+
+
 </form>
 
 </fieldset>

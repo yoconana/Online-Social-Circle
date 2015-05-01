@@ -176,7 +176,7 @@ text-align:center;
 <table>
 	<tr>
 		<td width = "200"><?php echo $row['GROUPTITLE']; ?></td>
-		<td><form method="post" action="groupdetails.php">
+		<td><form method="get" action="groupdetails.php">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="groupid" value="<?php echo $row['GROUPID']; ?>"/>
 			    </form></td>
@@ -196,10 +196,11 @@ text-align:center;
 				echo 'Member';
 			}
 			else if($row['IFINVITED'] == 1){
-				echo '<form method="post" action="">
+			/*	echo '<form method="post" action="">
 			    <input type="submit" name="action" value="Accept Invitation"/>
 				<input type="hidden" name="groupid" value="$row[\'GROUPID\']"/>
-			    </form>';
+			    </form>';*/
+				echo 'Invited';
 			}
 			else if($row['IFAPPLYING'] == 1){
 				echo 'Applying';

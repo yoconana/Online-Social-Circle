@@ -27,9 +27,13 @@ table{
     line-height:30px;
     background-color:#eeeeee;
     
-    float:left;
-    padding:5px;	      
+    float:left;	  
+	width:15%;    
 }
+#right {
+	float:right;
+	width:85%;
+	}
 
 #mainpart {
 	padding:10px;
@@ -157,6 +161,7 @@ text-align:center;
 </div> 
 </div>
 
+<div id="right">
 <fieldset>
 <legend>Recently Posted Activities:</legend>
 
@@ -180,8 +185,8 @@ text-align:center;
 
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
-		<tr><td width = "200"><?php echo $row['ACTIVITYTITLE']; ?></td>
-			<td ><form method="get" action="activitydetails.php" onSubmit="return LoginCheck()">
+		<tr><td width = "20%"><?php echo $row['ACTIVITYTITLE']; ?></td>
+			<td><form method="get" action="activitydetails.php" onSubmit="return LoginCheck()">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
 			    </form>
@@ -189,11 +194,14 @@ text-align:center;
 		</tr>
 
 		<tr>
-		<td width = "200">Location: </td><td><?php echo $row['ACTIVITYLOCATION']; ?></td></tr>
+		<td width = "20%">Location: </td>
+		<td><?php echo $row['ACTIVITYLOCATION']; ?></td></tr>
 		<tr>
-		<td width = "200">Date and Time: </td><td><?php echo $row['ACTIVITYTIME']; ?></td></tr>
+		<td width = "20%">Date and Time: </td>
+		<td><?php echo $row['ACTIVITYTIME']; ?></td></tr>
 		<tr>
-		<td width = "200">Description: </td><td><?php echo $row['ACTIVITYDESCRIPTION']; ?></td>
+		<td width = "20%">Description: </td>
+		<td><?php echo $row['ACTIVITYDESCRIPTION']; ?></td>
 		</tr>
 	</table>
 	
@@ -207,7 +215,7 @@ text-align:center;
 </div>
 
 </fieldset>
-
+</div>
 
 
 <div id="footer">

@@ -15,11 +15,11 @@ if(!isset($_SESSION['USERID'])){
 <style type="text/css">
     html{font-size:16px;}
 	
-    fieldset{width:1200px; margin: 0 auto;}
+    
 	
     legend{font-weight:bold; font-size:24px;}
 	
-    label{float:left; width:140px; margin-left:10px;}
+    label{float:left; width:180px; margin-left:10px;}
     .left{margin-left:150px;}
     .input{width:150px;}
 	
@@ -60,9 +60,12 @@ if(!isset($_SESSION['USERID'])){
 	    background-color:#eeeeee;
     
 	    float:left;
-	    padding:5px;	      
+	    width:15%;	      
 	}
-}
+	#right {
+	float:right;
+	width:85%;
+	}
 </style>
 
 <head>
@@ -81,7 +84,6 @@ if(!isset($_SESSION['USERID'])){
 <h1>Social Activity Website</h1>
 </div>
 <div id="nav">
-<div id=“navmenu">
 <ul>
 <li><a href="userinfo.php" >Your Activities</a></li>
 <li><a >Create new Activity</a></li>
@@ -89,30 +91,29 @@ if(!isset($_SESSION['USERID'])){
 <li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
-</div> 
 </div>
 
-
+<div id="right">
 <fieldset>
 <legend>Create Activity</legend>
 
 
 <form name="createactvityForm" method="post" action="addactivityResult.php" onSubmit="return InputCheck(this)" >
 <label for="ActivityTitle" class="label">Activity Name: </label>
-<input id="ActivityTitle" size="300" name="ActivityTitle"  type="text" class="input" style="width: 600px;" / >
+<input id="ActivityTitle" size="300" name="ActivityTitle"  type="text" class="input" style="width: 50%;" / >
 <span>*</span>
 </p>
 <p>
-<label for="ActivityLocation" class="label">Activity Location </label>
-<input id="ActivityLocation" name="ActivityLocation" type="text" class="input" style="width: 600px;"  />
+<label for="ActivityLocation" class="label">Activity Location: </label>
+<input id="ActivityLocation" name="ActivityLocation" type="text" class="input" style="width: 50%;"  />
 <span>*</span>
 </p>
 
 <p>
-<label for="ActivityTime" class="label">Activity Time </label>
-<input id="ActivityTime" name="ActivityTime" type="datetim" class="input"
-style="width: 600px;" />
-<span>*</span>
+<label for="ActivityTime" class="label">Activity Time: </label>
+<input id="ActivityTime" name="ActivityTime" type="datetime" class="input"
+style="width: 50%;" />
+<span>* (Example: 2015-01-05 13:00:00)</span>
 </p>
 
 
@@ -126,7 +127,7 @@ style="width: 600px;" />
 
 <p>
 <label for="ActivityDescrption" class="label">Activity Descrption:</label>
-<textarea name="ActivityDescrption" cols="25" rows="10" style="width: 750px;"></textarea>
+<textarea name="ActivityDescrption" cols="60" rows="10"></textarea>
 	<span>*</span>
 </p>
 <p>
@@ -134,6 +135,7 @@ style="width: 600px;" />
 </p>
 </form>
 </fieldset>
+</div>
 <script language=JavaScript>
 <!--
 
