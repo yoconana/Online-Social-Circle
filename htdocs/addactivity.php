@@ -69,7 +69,7 @@
 <legend>Create Activity</legend>
 
 
-<form name="createactvityForm" method="post" action="addactivity1.php" onSubmit="return InputCheck(this)" >
+<form name="createactvityForm" method="post" action="addactivityResult.php" onSubmit="return InputCheck(this)" >
 <label for="ActivityTitle" class="label">Activity Name: </label>
 <input id="ActivityTitle" size="300" name="ActivityTitle"  type="text" class="input" style="width: 400px;" / >
 <span>*</span>
