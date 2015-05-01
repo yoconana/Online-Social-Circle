@@ -69,23 +69,23 @@
 <legend>Create Activity</legend>
 
 
-<form name="createactvityForm" method="post" action="addactivity1.php" >
+<form name="createactvityForm" method="post" action="addactivity1.php" onSubmit="return InputCheck(this)" >
 <label for="ActivityTitle" class="label">Activity Name: </label>
 <input id="ActivityTitle" size="300" name="ActivityTitle"  type="text" class="input" style="width: 400px;" / >
 <span>*</span>
-<p/>
+</p>
 <p>
 <label for="ActivityLocation" class="label">Activity Location </label>
-<input id="ActivityLocation" name="Activity Location" type="text" class="input" style="width: 400px;"  />
+<input id="ActivityLocation" name="ActivityLocation" type="text" class="input" style="width: 400px;"  />
 <span>*</span>
-<p/>
+</p>
 
 <p>
 <label for="ActivityTime" class="label">Activity Time </label>
 <input id="ActivityTime" name="ActivityTime" type="datetim" class="input"
 style="width: 400px;" />
 <span>*</span>
-<p/>
+</p>
 
 
 <p>
@@ -103,11 +103,11 @@ style="width: 400px;" />
 	</textarea>
 	<span>*</span>
 </p>
+<p>
 <input type="submit" name="submit" value="  Submit  " class="left" />
 </p>
 </form>
 </fieldset>
-
 <script language=JavaScript>
 <!--
 
