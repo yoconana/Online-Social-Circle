@@ -94,12 +94,11 @@ else
 	
 }
 $actvityid =mysql_insert_id();
-
-$queryStringg = "INSERT INTO USERCONNECTACTIVITY (USERID , ACTIVITYID , IFCREATOR) VALUES ($tempuserid ,$actvityid, 1 );
-$query_result2 = mysql_query($queryStringg,$db);
-
+$queryStringg = "INSERT INTO USERCONNECTACTIVITY (USERID , ACTIVITYID , IFCREATOR ) VALUES ($tempuserid ,$actvityid, 1 )";
+$query_resultt = mysql_query($queryStringg,$db);
 
 ?>
+
 </p>
 <h2>
 <a href="userinfo.php"> view your Activities </a>
