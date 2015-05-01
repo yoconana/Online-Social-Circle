@@ -8,13 +8,16 @@ if(!isset($_SESSION['USERID'])){
 }
 
 ?>
+
+
 <html>
+
 <style type="text/css">
     html{font-size:16px;}
 	
-    fieldset{width:800px; margin: 0 auto;}
+    fieldset{width:1200px; margin: 0 auto;}
 	
-    legend{font-weight:bold; font-size:24px; text-align:center;}
+    legend{font-weight:bold; font-size:24px;}
 	
     label{float:left; width:140px; margin-left:10px;}
     .left{margin-left:150px;}
@@ -52,12 +55,21 @@ if(!isset($_SESSION['USERID'])){
     padding: 8px 8px 8px 8px;
 	
 	}
+	#nav {
+	    line-height:30px;
+	    background-color:#eeeeee;
+    
+	    float:left;
+	    padding:5px;	      
+	}
 }
 </style>
 
+<head>
 	
 </head>
 <body>
+
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
@@ -68,40 +80,97 @@ if(!isset($_SESSION['USERID'])){
 <div id="header">
 <h1>Social Activity Website</h1>
 </div>
+<div id="nav">
+<div id=“navmenu">
+<ul>
+<li><a href="userinfo.php" >Your Activities</a></li>
+<li><a >Create new Activity</a></li>
+<li><a href="yourgrouplist.php">Your Groups</a></li>
+<li><a href="friendslist.php">Your Friends</a></li>
+<li><a href="search.php"> Search </a></li>
+</ul>
+</div> 
+</div>
 
 
 <fieldset>
-	<legend>Activity Created </legend>
-
-<?php
-
-include('conn.php');
-$tempuserid = $_SESSION['USERID'];
- $radio_value=$_POST['ifpublic'];
-	if($radio_value=="yes")	
-	{
-$queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
-VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',1)";
-$query_result = mysql_query($queryString,$db);
-
-}
-
-else
-{
-	$queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
-	VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',0)";
-	$query_result = mysql_query($queryString,$db);
-	
-}
+<legend>Create Activity</legend>
 
 
-
-?>
+<form name="createactvityForm" method="post" action="addactivityResult.php" onSubmit="return InputCheck(this)" >
+<label for="ActivityTitle" class="label">Activity Name: </label>
+<input id="ActivityTitle" size="300" name="ActivityTitle"  type="text" class="input" style="width: 600px;" / >
+<span>*</span>
 </p>
-<h2>
-<a href="userinfo.php"> view your Activities </a>
-</h2>
+<p>
+<label for="ActivityLocation" class="label">Activity Location </label>
+<input id="ActivityLocation" name="ActivityLocation" type="text" class="input" style="width: 600px;"  />
+<span>*</span>
 </p>
+
+<p>
+<label for="ActivityTime" class="label">Activity Time </label>
+<input id="ActivityTime" name="ActivityTime" type="datetim" class="input"
+style="width: 600px;" />
+<span>*</span>
+</p>
+
+
+<p>
+<label for="ifpublic" class="label">Public:</label>
+<input type="radio" name="ifpublic" value="yes" checked="checked" /> YES
+<input type="radio" name="ifpublic" value="no"/> NO 
+<span>*</span>
+</p>
+
+
+<p>
+<label for="ActivityDescrption" class="label">Activity Descrption:</label>
+<textarea name="ActivityDescrption" cols="25" rows="10" style="width: 750px;"></textarea>
+	<span>*</span>
+</p>
+<p>
+<input type="submit" name="submit" value="  Submit  " class="left" />
+</p>
+</form>
 </fieldset>
+<script language=JavaScript>
+<!--
+
+function InputCheck(createactvityForm)
+{
+  if (createactvityForm.ActivityTitle.value == "")
+  {
+    alert("Activity Title cannot be empty!");
+    createactvityForm.ActivityTitle.focus();
+    return (false);
+  }
+  if (createactvityForm.ActivityLocation.value == "")
+  {
+    alert("Activity Location cannot be empty!");
+    createactvityForm.ActivityLocation.focus();
+    return (false);
+  }
+  if (createactvityForm.ActivityTime.value == "")
+  {
+    alert("Activity Time cannot be empty");
+   createactvityForm.ActivityTime.focus();
+    return (false);
+  }
+  if (createactvityForm.ActivityDescrption.value == "")
+  {
+    alert("Activity Description cannot be empty");
+   createactvityForm.ActivityDescrption.focus();
+    return (false);
+  }
+  
+ 
+}
+
+
+//-->
+</script>
+
 </body>
 </html>
+
