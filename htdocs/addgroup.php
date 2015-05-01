@@ -14,7 +14,7 @@ if(!isset($_SESSION['USERID'])){
 <style type="text/css">
     html{font-size:16px;}
 	
-    fieldset{width:800px; margin: 0 auto;}
+    fieldset{width:1200px; margin: 0 auto;}
 	
     legend{font-weight:bold; font-size:24px;}
 	
@@ -54,6 +54,13 @@ if(!isset($_SESSION['USERID'])){
     padding: 8px 8px 8px 8px;
 	
 	}
+	#nav {
+	    line-height:30px;
+	    background-color:#eeeeee;
+    
+	    float:left;
+	    padding:5px;	      
+	}
 }
 </style>
 
@@ -72,20 +79,30 @@ if(!isset($_SESSION['USERID'])){
 <div id="header">
 <h1>Social Activity Website</h1>
 </div>
-
+<div id="nav">
+<div id=“navmenu">
+<ul>
+<li><a href="userinfo.php" >Your Activities</a></li>
+<li><a href="addactivity.php">Create new Activity</a></li>
+<li><a href="yourgrouplist.php">Your Groups</a></li>
+<li><a href="friendslist.php">Your Friends</a></li>
+<li><a href="search.php"> Search </a></li>
+</ul>
+</div> 
+</div>
 
 <fieldset>
 <legend>Create Group</legend>
 
 <form name="createGroupForm" method="post" action="addgroupResult.php" onSubmit="return InputCheck(this)">
 <label for="GroupTitle" class="label">Group Title: </label>
-<input id="GroupTitle" size="300" name="GroupTitle"  type="text" class="input" style="width: 400px;" / >
+<input id="GroupTitle" size="300" name="GroupTitle"  type="text" class="input" style="width: 600px;" / >
 <span>*</span>
 <p/>
 
 <p>
 <label for="GroupDescrption" class="label">Group Descrption:</label>
-<textarea name="GroupDescrption" cols="25" rows="10" style="width: 400px;"></textarea>
+<textarea name="GroupDescrption" cols="25" rows="10" style="width: 600px;"></textarea>
 	<span>*</span>
 </p>
 <input type="submit" name="submit" value="  Submit  " class="left" />
