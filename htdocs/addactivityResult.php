@@ -1,3 +1,13 @@
+<?php
+// Start the session
+session_start();
+
+if(!isset($_SESSION['USERID'])){
+    header("Location:login.php");
+    exit();
+}
+
+?>
 <html>
 <style type="text/css">
     html{font-size:16px;}
@@ -65,40 +75,27 @@
 
 <?php
 
-$dbname='socialA';
-$con = mysql_connect("localhost","root","");
-
-if($con == FALSE)
-{
-    echo 'Cannot connect to database' . mysql_error();
-}
-else
-{
-    echo 'Connected to database';
-}
-
-mysql_select_db($dbname, $con);
-    $radio_value=$_POST['ifpublic'];
+include('conn.php');
+$tempuserid = $_SESSION['USERID'];
+ $radio_value=$_POST['ifpublic'];
 	if($radio_value=="yes")	
 	{
-$sql="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
+$queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
 VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',1)";
+$query_result = mysql_query($queryString,$db);
+
 }
 
 else
 {
-	$sql="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
+	$queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
 	VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',0)";
+	$query_result = mysql_query($queryString,$db);
 	
 }
 
 
-if (!mysql_query($sql, $con))
-{
-    die('Error: ' . mysql_error());
-}
 
-mysql_close($con)
 ?>
 </p>
 <h2>
