@@ -93,7 +93,10 @@ else
 	$query_result = mysql_query($queryString,$db);
 	
 }
+$actvityid =mysql_insert_id();
 
+$queryStringg = "INSERT INTO USERCONNECTACTIVITY (USERID , ACTIVITYID , IFCREATOR) VALUES ($tempuserid ,$actvityid, 1 );
+$query_result2 = mysql_query($queryStringg,$db);
 
 
 ?>
