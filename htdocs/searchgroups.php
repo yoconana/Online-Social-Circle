@@ -8,12 +8,11 @@ if(!isset($_SESSION['USERID'])){
 }
 
 $personalUserId = $_SESSION['USERID'];
-
 if (isset($_POST['keyword'])){
-	$activityKeyword = $_POST['keyword'];
+	$groupKeyword = $_POST['keyword'];
 }
 else{
-	$activityKeyword = "";
+	$groupKeyword = "";
 }
 ?>
 
@@ -145,14 +144,14 @@ text-align:center;
 <div id="nav">
 <ul>
 <li><a href="userinfo.php">Profile</a></li>
-<li><a>Search Activities</a></li>
-<li><a href="searchgroups.php">Search Groups</a></li>
+<li><a href="search.php">Search Activities</a></li>
+<li><a>Search Groups</a></li>
 </ul>
 </div>
 
 <div id="right">
 <fieldset>
-<legend>Search for New Activities</legend>
+<legend>Search for New Groups</legend>
 
 <form name="searchForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onSubmit="return InputCheck(this)">
 		<p>
@@ -168,6 +167,22 @@ text-align:center;
 
 </fieldset>
 </div>
+
+<script language=JavaScript>
+<!--
+
+function InputCheck(searchForm)
+{
+   if (searchForm.keyword.value == "")
+  {
+    alert("Key word cannot be empty!");
+    LoginForm.keyword.focus();
+    return (false);
+  }
+}
+
+//-->
+</script>
 
 </body>
 </html>

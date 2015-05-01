@@ -130,7 +130,6 @@ text-align:center;
 </div>
 
 <div id="nav">
-<div id=“navmenu">
 <ul>
 <li><a>Your Activities</a></li>
 <li><a href="addactivity.php">Create new Activity</a></li>
@@ -138,7 +137,6 @@ text-align:center;
 <li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
-</div> 
 </div>
 
 <fieldset>
