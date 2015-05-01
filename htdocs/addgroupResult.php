@@ -80,9 +80,12 @@ $tempuserid = $_SESSION['USERID'];
 $queryString= "INSERT INTO GROUPS (GROUPTITLE,GROUPDESCRIPTION) 
 VALUES ('$_POST[GroupTitle]', '$_POST[GroupDescrption]')";
 $query_result = mysql_query($queryString,$db);
-
+$actvityid =mysql_insert_id();
+$queryStringg = "INSERT INTO USERCONNECTGROUP (USERID , GROUPID , IFMEMBER,IFINVITED ,IFADMIN,IFAPPLYING ) VALUES ($tempuserid ,$actvityid, 0 ,0, ,1,0 )";
+$query_resultt = mysql_query($queryStringg,$db);
 
 ?>
+
 </p>
 <h2>
 <a href="userinfo.php"> view your Profile </a>
