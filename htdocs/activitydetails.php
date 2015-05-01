@@ -205,7 +205,6 @@ $queryString = "SELECT *
 	<tr><td width="200">Description: </td>
 		<td><?php echo $activityinfo['ACTIVITYDESCRIPTION'];?></td>
 	</tr>
-	<tr><td width="200"></td>
 	<td>
 	<?php
 	if($ifcreator == 1){
@@ -214,6 +213,10 @@ $queryString = "SELECT *
 			    <input type="submit" name="action" value="Send Invitation to Your Friends"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 			    </form>';
+		echo '</td><td><form method="post" action="assignactogroup.php">
+			    <input type="submit" name="action" value="Assign to your Groups"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
+			    </form></td><td>';
 	}
 	else if($comletelyNewmember == 1){
 		echo '<form method="post" action="userapplytoactivity.php">
@@ -323,8 +326,9 @@ $query_result = mysql_query($queryString,$db);
 </fieldset>
 </div>
 
-<div>
+<div id="footer">
 
+DATABASE SYSTEMS PROJECRT 
 </div>
 </body>
 </html>

@@ -8,13 +8,13 @@ if(!isset($_SESSION['USERID'])){
 }
 
 $personalUserId = $_SESSION['USERID'];
-$groupId = $_POST['groupid'];
+$activityId = $_POST['activityid'];
 
-if(!empty($_POST['friendid_list'])){
+if(!empty($_POST['groupid_list'])){
 
 }
 else{
-	header("Location:sendactinvite.php");
+	header("Location:assignactogroup.php");
 	exit();
 }
 ?>
@@ -130,9 +130,7 @@ text-align:center;
 
 </style>
 </head>
-
 <body>
-
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
@@ -143,38 +141,25 @@ text-align:center;
 <div id="header">
 <h1>Social Activity Website</h1>
 </div>
+
 <?php
 	include('conn.php');
-	foreach($_POST['friendid_list'] as $inviteuserid){
+	foreach($_POST['groupid_list'] as $assigngroupid){
 		$queryString = "SELECT *
-		FROM USERCONNECTGROUP
-		WHERE USERID = $inviteuserid AND GROUPID = $groupId";
+		FROM ACTIVITYASSIGNEDTOGROUP
+		WHERE GROUPID = $assigngroupid AND ACTIVITYID = $activityId";
 		$query_result = mysql_query($queryString,$db);
 		if(mysql_num_rows($query_result) > 0){
-			//update
-			$queryString = "UPDATE USERCONNECTGROUP
-			SET IFINVITED = 1
-			WHERE USERID = $inviteuserid AND GROUPID = $groupId";
-			if(mysql_query($queryString,$db)){
-				
-			}
-			else{
-				echo 'Invite Failed! Please <a href="groupdetails.php?groupid='.$groupId.'">go back</a> to try again';
-				mysql_free_result($query_result);
-				mysql_close($db);
-				exit;
-			}
+			
 		}
 		else{
-			//insert
-			$queryString = "INSERT INTO USERCONNECTGROUP
-							VALUES($inviteuserid,$groupId,0,1,0,0,NULL,NULL);";
-				//echo $queryString;
+			$queryString = "INSERT INTO ACTIVITYASSIGNEDTOGROUP
+			VALUES($activityId,$assigngroupid)";
 			if(mysql_query($queryString,$db)){
 				
 			}
 			else{
-				echo 'Invite Failed! Please <a href="groupdetails.php?groupid='.$groupId.'">go back</a> to try again';
+				echo 'Assign Failed! Please <a href="activitydetails.php?activityid='.$activityId.'">go back</a> to try again';
 				mysql_free_result($query_result);
 				mysql_close($db);
 				exit;
@@ -183,7 +168,7 @@ text-align:center;
 	}
 	mysql_free_result($query_result);
 	mysql_close($db);
-	echo 'Invite Succeed! Please go to your <a href="groupdetails.php?groupid='.$groupId.'">group page</a>.';
+	echo 'Assign Succeed! Please go back to your <a href="activitydetails.php?activityid='.$activityId.'">activity page</a>.';
 ?>
 </body>
 </html>

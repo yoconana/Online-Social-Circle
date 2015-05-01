@@ -16,6 +16,7 @@ $activityId = $_POST['activityid'];
 ?>
 
 <html>
+
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
@@ -129,7 +130,6 @@ text-align:center;
 </style>
 </head>
 
-
 <body>
 <div id="menu">
 <ul>
@@ -151,75 +151,69 @@ text-align:center;
 
 </div>
 
-
-
-
 <?php
+	//get all groups which is not linked to this activity but your are the member or creator of the group
 	include('conn.php');
-	$queryString = "SELECT USERID,USERNAME,EMAILADDR
-	FROM
-	((SELECT USERID2 FRID
-	FROM USERS,FRIENDSHIP
-	WHERE USERS.USERID = FRIENDSHIP.USERID1
-	AND FRIENDSHIP.RELATIONSTATUS = 1
-	AND USERS.USERID = $personalUserId)
-	UNION
-	(SELECT USERID1 FRID
-	FROM USERS,FRIENDSHIP
-	WHERE USERS.USERID = FRIENDSHIP.USERID2
-	AND FRIENDSHIP.RELATIONSTATUS = 1
-	AND USERS.USERID = $personalUserId)) FRIDLIST,USERS
-	WHERE FRIDLIST.FRID = USERS.USERID
-	AND USERID NOT IN
-	(SELECT USERID
-	FROM USERCONNECTACTIVITY
-	WHERE USERCONNECTACTIVITY.ACTIVITYID = $activityId)";
+	$queryString = "SELECT GROUPS.*
+	FROM USERCONNECTGROUP,GROUPS
+	WHERE USERCONNECTGROUP.GROUPID = GROUPS.GROUPID
+	AND USERCONNECTGROUP.USERID = $personalUserId
+	AND GROUPS.IFDISMISS = 0
+	AND 
+	(USERCONNECTGROUP.IFMEMBER = 1
+	OR USERCONNECTGROUP.IFADMIN = 1
+	)
+	AND GROUPS.GROUPID NOT IN
+	(
+		SELECT ACTIVITYASSIGNEDTOGROUP.GROUPID
+		FROM ACTIVITYASSIGNEDTOGROUP
+		WHERE ACTIVITYASSIGNEDTOGROUP.ACTIVITYID = $activityId
+	)";
+	
 	$query_result = mysql_query($queryString,$db);
 ?>
+
 <div id="right">
 <fieldset>
-<legend>Invite your Friends to attend your Activity:</legend>
+<legend>Assign this activity to your Groups:</legend>
 <?php if(mysql_num_rows($query_result) > 0): ?>
-
-<form name = "inviteForm" action = "invitetoactivityresult.php" method="post" onSubmit="return InputCheck(this)">
+	<form name = "assignForm" action = "assignacResult.php" method="post" onSubmit="return InputCheck(this)">
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	
 	<table>
 	<tr>
 	<td width = "20%">
-		<input type = "checkbox" name="friendid_list[]" value="<?php echo $row['USERID']?>"/>
+		<input type = "checkbox" name="groupid_list[]" value="<?php echo $row['GROUPID']?>"/>
 	</td>
-	<td width = "30%">
-		<?php echo $row['USERNAME']?>
+	<td width = "50%">
+		<?php echo $row['GROUPTITLE']?>
 	</td>
 	<td>
-		<?php echo $row['EMAILADDR']?>
+		<?php echo $row['CREATETIME']?>
 	</td>
 	</tr>
 	</table>
 	<hr>
 
 <?php endwhile; 
-	  ?>
+	   ?>
 	<input type = "hidden" name = "activityid" value = "<?php echo $activityId;?>"/>
 	<input type = "submit" name="action" value = "Submit" class="left" />
 	  
 </form>
-
 <?php else: ?>
-	You have no more friends to be invited.Please <a href="activitydetails.php?activityid=<?php echo $activityId;?>">GO BACK</a>.
-<?php endif; 
+	You have no more group to assign.Please <a href="activitydetails.php?activityid=<?php echo $activityId;?>">GO BACK</a>.
+	<?php endif; 
 		mysql_free_result($query_result);
 		mysql_close($db);
-?>
-
+	?>
 </fieldset>
 </div>
 
 <script language=JavaScript>
 <!--
 
-function InputCheck(inviteForm)
+function InputCheck(assignForm)
 {
    var textinputs = document.querySelectorAll('input[type=checkbox]'); 
 	var empty = [].filter.call( textinputs, function( el ) {

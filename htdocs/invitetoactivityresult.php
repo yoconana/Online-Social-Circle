@@ -159,6 +159,8 @@ text-align:center;
 			}
 			else{
 				echo 'Invite Failed! Please <a href="activitydetails.php?activityid='.$activityId.'">go back</a> to try again';
+				mysql_free_result($query_result);
+				mysql_close($db);
 				exit;
 			}
 		}
@@ -172,6 +174,8 @@ text-align:center;
 			}
 			else{
 				echo 'Invite Failed! Please <a href="activitydetails.php?activityid='.$activityId.'">go back</a> to try again';
+				mysql_free_result($query_result);
+				mysql_close($db);
 				exit;
 			}
 		}

@@ -348,6 +348,10 @@ text-align:center;
 	mysql_close($db);
 ?>
 
+<div id="footer">
+
+DATABASE SYSTEMS PROJECRT 
+</div>
 </body>
 
 </html>

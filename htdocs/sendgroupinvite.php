@@ -194,17 +194,19 @@ text-align:center;
 	<hr>
 
 <?php endwhile; 
-	  mysql_free_result($query_result);
-	  mysql_close($db); ?>
+	   ?>
 	<input type = "hidden" name = "groupid" value = "<?php echo $groupId;?>"/>
 	<input type = "submit" name="action" value = "Submit" class="left" />
-	
-<?php else: ?>
-	You have no more friends to be invited.Please <a href="groupdetails.php?groupid=<?php echo $groupId;?>">GO BACK</a>.
-<?php endif; ?>
 
 
 </form>
+
+<?php else: ?>
+	You have no more friends to be invited.Please <a href="groupdetails.php?groupid=<?php echo $groupId;?>">GO BACK</a>.
+<?php endif; 
+		mysql_free_result($query_result);
+		mysql_close($db);
+?>
 
 </fieldset>
 </div>
