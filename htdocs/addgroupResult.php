@@ -20,7 +20,7 @@ if(!isset($_SESSION['USERID'])){
     .left{margin-left:150px;}
     .input{width:150px;}
 	
-    span{color: #666666;}
+    span{color: #666666;} 
 	
 	#menu ul {
     height: auto;
