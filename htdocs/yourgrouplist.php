@@ -128,7 +128,7 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1>Online Social Circle</h1>
+<h1><?php echo $_SESSION['USERNAME'];?>'s Online Social Circle</h1>
 </div>
 
 <div id="nav">

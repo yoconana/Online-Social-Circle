@@ -56,6 +56,7 @@ if($_GET['action'] == "logout"){
     unset($_SESSION['USERNAME']);
 	unset($_SESSION['USERID']);
     unset($_SESSION['EMAILADDR']);
+	unset($_SESSION['BIRTHDATE']);
     echo 'Log out Succeed! Please click here to <a href="login.php">Log in</a>';
     exit;
 }
@@ -73,6 +74,7 @@ if($result = mysql_fetch_array($user_query)){
 	$_SESSION['USERNAME'] = $result['USERNAME'];
     $_SESSION['USERID'] = $result['USERID'];
 	$_SESSION['EMAILADDR'] = $result['EMAILADDR'];
+	$_SESSION['BIRTHDATE'] = $result['BIRTHDATE'];
 	$tempuser = $result['USERNAME'];
 	
 	echo 'Welcome, '.$tempuser.'! You can go to our <a href="publicactivity.php">Public Page</a>';

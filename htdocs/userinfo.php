@@ -7,7 +7,6 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-$personalUsername = $_SESSION['USERNAME'];
 
 ?>
 
@@ -128,7 +127,7 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1><?php echo $personalUsername;?>'s Online Social Circle</h1>
+<h1><?php echo $_SESSION['USERNAME'];?>'s Online Social Circle</h1>
 </div>
 
 <div id="nav">
@@ -151,6 +150,24 @@ text-align:center;
 	<tr><td width="200">Email Address: </td>
 	    <td><?php echo $_SESSION['EMAILADDR'];?></td>
 	</tr>
+	<tr><td width="200">Gender: </td>
+		<td><?php 
+			if($_SESSION['GENDER'] == 1){
+				echo 'Male';
+			}
+			else{
+				echo 'Female';
+			}
+		?>
+		</td>
+	</tr>
+	<?php
+		if($_SESSION['BIRTHDATE'] != NULL){
+			echo '<tr><td width="200">Birth Date: </td>
+			    <td>'.$_SESSION['BIRTHDATE'].'</td>
+				</tr>';
+		}
+	?>
 </table>
 
 </fieldset>
