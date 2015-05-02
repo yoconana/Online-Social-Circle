@@ -139,7 +139,7 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1>Online Social Circle</h1>
+<h1>Social Activity Website</h1>
 </div>
 
 <div id="nav">
@@ -151,13 +151,12 @@ text-align:center;
 </div>
 
 <div id="right">
-<fieldset>
 <legend>Search for New Activities</legend>
 
 <form name="searchForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onSubmit="return InputCheck(this)">
 		<p>
 		<label for="keyword" class="label">Keyword: </label>
-		<input id="keyword" name="keyword" type="text" class="input" />
+		<input id="keyword" name="keyword" value = "<?php echo $activityKeyword; ?>" type="text" class="input" />
 		<span>*</span>
 		<p/>
 		
@@ -165,6 +164,56 @@ text-align:center;
 		<input type="submit" name="submit" value="Search" class="left" />
 		</p>
 </form>
+<?php if ($activityKeyword != ""): ?>
+<?php
+	include('conn.php');
+	$queryString = "SELECT *
+		FROM ACTIVITIES 
+		WHERE 
+		(ACTIVITIES.ACTIVITYTITLE LIKE '%$activityKeyword%' OR ACTIVITIES.ACTIVITYDESCRIPTION  LIKE '%$activityKeyword%' OR ACTIVITIES.ACTIVITYLOCATION  LIKE '%$activityKeyword%' )
+		AND ACTIVITIES.ACTIVITYID NOT IN
+		(SELECT ACTIVITIES.ACTIVITYID FROM
+		ACTIVITIES , USERCONNECTACTIVITY
+		WHERE ACTIVITIES.ACTIVITYID = USERCONNECTACTIVITY.ACTIVITYID
+		AND USERCONNECTACTIVITY.USERID = $personalUserId
+		)
+		AND ACTIVITIES.IFCANCELED = 0";
+	$query_result = mysql_query($queryString,$db);
+?>
+
+<?php while ($row = mysql_fetch_array($query_result)) : ?>
+	<table>
+	<tr>
+		<td width = "200"><?php echo 'Activity Title:'; ?></td>
+		<td width><?php echo $row['ACTIVITYTITLE']; ?></td>
+	</tr>
+		<td width = "200"><?php echo 'Activity Location: '; ?></td>
+		<td width><?php echo $row['ACTIVITYLOCATION']; ?></td>
+	<tr>
+		<td width = "200"><?php echo 'Activity Description: '; ?></td>
+		<td width><?php echo $row['ACTIVITYDESCRIPTION']; ?></td>
+	</tr>
+	<tr>
+		<td>
+			<form method="get" action="activitydetails.php">
+			    <input type="submit" name="submit" value="Detail"/>
+				<input type="hidden" name="groupid" value="<?php echo $row['ACTIVITYID']; ?>"/>
+			    </form>
+		</td>
+		<td>
+			<form method="post" action="userapplytoactivity.php">
+			<input type="submit" name = "action" value="Apply" class="left"/>
+			<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID'];?>"/>
+			</form>
+		</td>
+	</tr>
+	</table>
+	<hr>
+<?php endwhile; 
+	  mysql_free_result($query_result);
+	  mysql_close($db); ?>
+
+<?php endif; ?> 
 
 </fieldset>
 </div>
