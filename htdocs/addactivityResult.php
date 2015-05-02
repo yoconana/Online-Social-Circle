@@ -75,8 +75,9 @@ if(!isset($_SESSION['USERID'])){
 
 <?php
 
+
+
 include('conn.php');
-$tempuserid = $_SESSION['USERID'];
  $radio_value=$_POST['ifpublic'];
 	if($radio_value=="yes")	
 	{
@@ -92,15 +93,23 @@ else
 	VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',0)";
 	$query_result = mysql_query($queryString,$db);
 	
-}
+
+$temp=$_SESSION['USERID'];
 $actvityid =mysql_insert_id();
-$queryStringg = "INSERT INTO USERCONNECTACTIVITY (USERID , ACTIVITYID , IFCREATOR ) VALUES ($tempuserid ,$actvityid, 1 )";
+$queryStringg = "INSERT INTO USERCONNECTACTIVITY (USERID , ACTIVITYID , IFCREATOR ) VALUES ($temp,$actvityid, 1 )";
 $query_resultt = mysql_query($queryStringg,$db);
+
+
 
 ?>
 
 </p>
 <h2>
+<?php
+	
+echo $tempid ;
+echo $actvityid ;
+?>
 <a href="userinfo.php"> view your Activities </a>
 </h2>
 </p>
