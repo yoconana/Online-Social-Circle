@@ -1,11 +1,20 @@
 <?php
 // Start the session
 session_start();
-
 if(!isset($_SESSION['USERID'])){
     header("Location:login.php");
     exit();
 }
+$personalUserId = $_SESSION['USERID'];
+$ActivityTitle=$_POST['ActivityTitle'];
+$ActivityDescrption= $_POST['ActivityDescrption'];
+$ActivityLocation=$_POST['ActivityLocation'];
+$ActivityTime=$_POST['ActivityTime'];
+ $radio_value=$_POST['ifpublic'];
+if($radio_value=="yes")	
+		{ $x=1; }
+	else 
+		{$x=0;}
 
 ?>
 <html>
@@ -34,7 +43,6 @@ if(!isset($_SESSION['USERID'])){
 	padding: 20px; 
 	text-align:center;
 	}
-
 	#menu a {
     text-decoration: none;
     color: black;
@@ -74,45 +82,34 @@ if(!isset($_SESSION['USERID'])){
 	<legend>Activity Created </legend>
 
 <?php
-
-
-
 include('conn.php');
- $radio_value=$_POST['ifpublic'];
-	if($radio_value=="yes")	
-	{
+
 $queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
-VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',1)";
-$query_result = mysql_query($queryString,$db);
+VALUES ('$ActivityTitle', '$ActivityDescrption','$ActivityLocation','$ActivityTime','$x')";
 
-}
-
-else
+if(mysql_query($queryString,$db))
 {
-	$queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
-	VALUES ('$_POST[ActivityTitle]', '$_POST[ActivityDescrption]','$_POST[ActivityLocation]','$_POST[ActivityTime]',0)";
-	$query_result = mysql_query($queryString,$db);
+		$generatedActivityid =mysql_insert_id();
+		$queryString = "INSERT INTO USERCONNECTACTIVITY (USERID ,ACTIVITYID , IFATTEND,IFINVITED ,IFCREATOR ,IFAPPLYING ) 
+					 VALUES ($personalUserId ,$generatedActivityid, 0 ,0 ,1,0 )";
+		if(mysql_query($queryString,$db)){
+			echo 'Add Succeed! Please view <a href="userinfo.php">your Activities </a>';
+		}
+		else{
+			echo 'Add Failed! Please <a href="addactivity.php">go back</a> to try again.';
+		}
+	}
+	else{
+		echo 'Add Failed! Please <a href="addactivity.php">go back</a> to try again.';
+	}
 	
-
-$temp=$_SESSION['USERID'];
-$actvityid =mysql_insert_id();
-$queryStringg = "INSERT INTO USERCONNECTACTIVITY (USERID , ACTIVITYID , IFCREATOR ) VALUES ($temp,$actvityid, 1 )";
-$query_resultt = mysql_query($queryStringg,$db);
-
-
+	
+	//mysql_free_result($query_result);
+	mysql_close($db);
 
 ?>
 
-</p>
-<h2>
-<?php
-	
-echo $tempid ;
-echo $actvityid ;
-?>
-<a href="userinfo.php"> view your Activities </a>
-</h2>
-</p>
+
 </fieldset>
 </body>
 </html>
