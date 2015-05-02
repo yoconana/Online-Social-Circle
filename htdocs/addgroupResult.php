@@ -70,7 +70,7 @@ $groupDescription = $_POST['groupdescription'];
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1>Online Social Circle</h1>
 </div>
 
 <div id="right">

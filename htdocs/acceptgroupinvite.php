@@ -135,7 +135,7 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1>Online Social Circle</h1>
 </div>
 <?php
 	include('conn.php');

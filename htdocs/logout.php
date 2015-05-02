@@ -123,12 +123,13 @@ text-align:center;
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
-<li><a href="logout.php">Log out</a></li>
+<li><a href="registerPage.php">Register</a></li>
+<li><a href="login.php">Log In</a></li>
 
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1>Online Social Circle</h1>
 </div>
 <?php
 	echo 'Log out Succeed! You can <a href="login.php">Log In</a> again.';

@@ -27,7 +27,7 @@ class DatabaseOperation{
 	
 	
 	
-	public function UserRegiser($_username,$_password,$_email,$_gender){
+	public function UserRegiser($_username,$_password,$_email,$_gender,$_birthdate){
 		$selectString = "";
 		$queryString = "";
 		$genderBool = "";
@@ -39,11 +39,19 @@ class DatabaseOperation{
 			$genderBool = "FALSE";
 		}
 		
-		$selectString = "SELECT * FROM USERS WHERE EMAILADDR = '$_email'";								
-		$queryString = "INSERT INTO USERS (USERNAME, USERPASSWORD, EMAILADDR, GENDER) VALUES ('$_username', '$_password', '$_email', $genderBool)";
+		$selectString = "SELECT * FROM USERS WHERE EMAILADDR = '$_email'";			
+		if($_birthdate == ""||$_birthdate == NULL){
+			$queryString = "INSERT INTO USERS (USERNAME, USERPASSWORD, EMAILADDR, GENDER) 
+						VALUES ('$_username', '$_password', '$_email', $genderBool)";
+		}
+		else{
+			$queryString = "INSERT INTO USERS (USERNAME, USERPASSWORD, EMAILADDR, GENDER,BIRTHDATE) 
+						VALUES ('$_username', '$_password', '$_email', $genderBool,'$_birthdate')";
+		}
+		
 				
 		//echo $selectString;
-		//echo $queryString;		
+		echo $queryString;		
 		$this->linkDatabase();
 		
 		$finduserid = mysql_query($selectString,$this -> mySQLdatabase) or die (mysql_error($this -> mySQLdatabase));

@@ -51,7 +51,7 @@
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1>Online Social Circle</h1>
 </div>
 
 <div>
@@ -64,10 +64,14 @@ $username = $_POST['username'];
 $password = $_POST['password'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
+$birthdate = $_POST['birthdate'];
+
+
+echo $birthdate;
 
 include 'connection.php';
 	$myDbOperation = new DatabaseOperation();
-	$result = $myDbOperation->UserRegiser($username,$password,$email,$gender);
+	$result = $myDbOperation->UserRegiser($username,$password,$email,$gender,$birthdate);
 	if($result == 0){
 		echo 'Error ! ',$email,' already exists.<a href="javascript:history.back(-1);">Return</a>';
 		exit;

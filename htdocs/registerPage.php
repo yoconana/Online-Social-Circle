@@ -59,7 +59,7 @@
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1>Online Social Circle</h1>
 </div>
 
 <fieldset>
@@ -85,12 +85,17 @@
 <label for="email" class="label">E-mail Address:</label>
 <input id="email" name="email" type="text" class="input" />
 <span>*</span>
-<p/>
+</p>
 
 <p>
 <label for="gender" class="label">Gender:</label>
 <input type="radio" name="gender" value="male" checked="checked" /> Male 
 <input type="radio" name="gender" value="female"/> Female <br/>
+
+</p>
+<label for="birthdate" class="label">Birth Date:</label>
+<input id="birthdate" name="birthdate" type="date" class="input" />
+<p>
 
 </p>
 <p>

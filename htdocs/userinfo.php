@@ -7,6 +7,8 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
+$personalUsername = $_SESSION['USERNAME'];
+
 ?>
 
 <html>
@@ -126,7 +128,7 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1><?php echo $personalUsername;?>'s Online Social Circle</h1>
 </div>
 
 <div id="nav">
