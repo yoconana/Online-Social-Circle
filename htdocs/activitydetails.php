@@ -205,10 +205,13 @@ $queryString = "SELECT *
 	<tr><td width="200">Description: </td>
 		<td><?php echo $activityinfo['ACTIVITYDESCRIPTION'];?></td>
 	</tr>
+	<tr>
+	<td width="200">Status: </td>
 	<td>
 	<?php
 	if($ifcreator == 1){
 		//creator. need edit button
+		echo 'Creator</td></tr><tr><td>';
 		echo '<form method="post" action="sendactinvite.php">
 			    <input type="submit" name="action" value="Send Invitation to Your Friends"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
@@ -229,8 +232,9 @@ $queryString = "SELECT *
 		echo 'Member';
 	}
 	else if($ifinvited == 1){
+		echo 'Invited</td></tr><tr><td>';
 		echo '<form method="post" action="adduserasactmember.php">
-			    <input type="submit" name="action" value="Accept"/>
+			    <input type="submit" name="action" value="Accept Invitation"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
 			    </form>';
@@ -313,6 +317,7 @@ $query_result = mysql_query($queryString,$db);
 					<input type="hidden" name="activityid" value="'.$activityid.'"/>
 					<input type="hidden" name="activityuserid" value = "'.$row['USERID'].'"/>
 					</form>';
+					echo '</td></tr><tr><td width="10%">Apply Reason: </td><td>'.$row['APPLYREASON'];
 				}
 			}
 		?></td>

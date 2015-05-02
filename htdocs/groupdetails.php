@@ -323,10 +323,11 @@ text-align:center;
 	else if($row['IFAPPLYING'] == 1){
 		if($ifgroupAdmin == 1){
 			echo '<form method="post" action="acceptgroupinvite.php">
-					<input type="submit" name="action" value="Delete"/>
+					<input type="submit" name="action" value="Accept Application"/>
 					<input type="hidden" name="groupid" value="'.$groupId.'"/>
 					<input type="hidden" name="acceptuserid" value = "'.$row['USERID'].'"/>
 					</form>';
+			echo '</td></tr><tr><td>Apply Reason: </td><td>'.$row['APPLYREASON'];
 		}
 		else{
 			echo 'Applying';

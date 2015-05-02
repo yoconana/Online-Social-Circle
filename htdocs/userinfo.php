@@ -189,9 +189,10 @@ text-align:center;
 				echo "Member";
 			}
 			else if($row['IFINVITED'] == 1){
-				echo '<form method="post" action="">
+				echo '<form method="post" action="adduserasactmember.php">
 			    <input type="submit" name="action" value="Accept Invitation"/>
-				<input type="hidden" name="activityid" value="$row[\'ACTIVITYID\']"/>
+				<input type="hidden" name="activityid" value="'.$row['ACTIVITYID'].'"/>
+					<input type="hidden" name="activityuserid" value = "'.$row['USERID'].'"/>
 			    </form>';
 			}
 			else if($row['IFAPPLYING'] == 1){

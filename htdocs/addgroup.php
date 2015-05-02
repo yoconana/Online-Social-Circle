@@ -11,61 +11,116 @@ if(!isset($_SESSION['USERID'])){
 
 <html>
 
-<style type="text/css">
-    html{font-size:16px;}
-	
-    fieldset{width:1200px; margin: 0 auto;}
-	
-    legend{font-weight:bold; font-size:24px;}
-	
-    label{float:left; width:140px; margin-left:10px;}
-    .left{margin-left:150px;}
-    .input{width:150px;}
-	
-    span{color: #666666;}
-	
-	#menu ul {
-    height: auto;
-    padding: 8px 0px;
-    margin: 0px;
-	text-align:center;
-	}
-	
-	#menu li { 
-	display: inline; 
-	padding: 20px; 
-	text-align:center;
-	}
 
-	#menu a {
-    text-decoration: none;
-    color: black;
-    padding: 8px 8px 8px 8px;}
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<style>
+legend{font-weight:bold; font-size:24px;}
+label{float:left; width:150px; margin-left:10px;}
+table{
+	width: 100%;    
+    background-color: #f1f1c1;
 	
-	#menu a:hover {
-    color: #F90;
-    background-color: #FFF;
-	}
-	
-	#header {
+}
+
+#header {
     background-color:#003366;
     color:white;
     text-align:center;
-    padding: 8px 8px 8px 8px;
-	
-	}
-	#nav {
-	    line-height:30px;
-	    background-color:#eeeeee;
-    
-	    float:left;
-	    padding:5px;	      
-	}
+    padding:5px;
 }
-</style>
+#nav {
+    line-height:30px;
+    background-color:#eeeeee;
+    width:15%;
+    float:left;	      
+}
 
-<head>
+#right {
+	float:right;
+	width:85%;
+}
+
+#mainpart {
+	padding:10px;
+}
+#section {
+    width:60% ;
+    float:left;
+	HEIGHT :150 ;
+    padding:10px;
+	 	 
+}
+#scrolldown {
+ height:100x;
+ width:auto;
+ border:1px solid #ccc;
+ font:16px/26px Georgia, Garamond, Serif;
+ overflow:auto;
+	 	 
+}
+
+#footer {
+    background-color:#003366;
+    color:white;
+    clear:both;
+    text-align:center;
+    padding: 5px;
 	
+	bottom: 0;
+	
+	
+	height: 25px;
+}
+#menu ul {
+    height: auto;
+    padding: 8px 0px;
+    margin: 0px;
+text-align:center;
+}
+#menu li { 
+display: inline; 
+padding: 20px; 
+text-align:center;
+}
+
+#menu a {
+    text-decoration: none;
+    color: black;
+    padding: 8px 8px 8px 8px;
+}
+
+#menu a:hover {
+    color: #F90;
+    background-color: #FFF;
+}
+
+#navmenu ul {
+    height: auto;
+    padding:0px;
+    margin: 0px;
+text-align:center;
+ list-style-type: none;
+}
+#navmenu li { 
+padding: 0px; 
+text-align:center;
+
+}
+
+#navmenu a {
+    text-decoration: none;
+    color: black;
+    padding: 8px 8px 8px 8px;
+
+}
+
+#menu a:hover {
+    color: #F90;
+    background-color: #FFF;
+}
+
+</style>
 </head>
 <body>
 
@@ -80,36 +135,36 @@ if(!isset($_SESSION['USERID'])){
 <h1>Social Activity Website</h1>
 </div>
 <div id="nav">
-<div id=“navmenu">
 <ul>
 <li><a href="userinfo.php" >Your Activities</a></li>
-<li><a href="addactivity.php">Create new Activity</a></li>
 <li><a href="yourgrouplist.php">Your Groups</a></li>
+<li><a>Create New Group</a></li>
 <li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
-</div> 
 </div>
 
+<div id="right">
 <fieldset>
 <legend>Create Group</legend>
 
 <form name="createGroupForm" method="post" action="addgroupResult.php" onSubmit="return InputCheck(this)">
-<label for="GroupTitle" class="label">Group Title: </label>
-<input id="GroupTitle" size="300" name="GroupTitle"  type="text" class="input" style="width: 600px;" / >
-<span>*</span>
-<p/>
+	<p>
+	<label for="GroupTitle" class="label">Group Title: </label>
+	<input id="GroupTitle" size="300" name="grouptitle"  type="text" class="input" style="width: 600px;" / >
+	<span>*</span>
+	</p>
 
 <p>
-<label for="GroupDescrption" class="label">Group Descrption:</label>
-<textarea name="GroupDescrption" cols="25" rows="10" style="width: 600px;"></textarea>
+	<label for="GroupDescription" class="label">Group Description:</label>
+	<textarea name="groupdescription" cols="25" rows="10" style="width: 600px;"></textarea>
 	<span>*</span>
 </p>
-<input type="submit" name="submit" value="  Submit  " class="left" />
+	<input type="submit" name="submit" value="  Submit  " class="left" />
 </p>
 </form>
 </fieldset>
-
+</div>
 <script language=JavaScript>
 <!--
 

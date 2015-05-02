@@ -167,7 +167,7 @@ text-align:center;
 <form name="searchForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onSubmit="return InputCheck(this)">
 		<p>
 		<label for="keyword" class="label">Keyword: </label>
-		<input id="keyword" name="keyword" type="text" class="input" />
+		<input id="keyword" name="keyword" value = "<?php echo $friendKeyword;?>" type="text" class="input" />
 		<span>*</span>
 		<p/>
 		

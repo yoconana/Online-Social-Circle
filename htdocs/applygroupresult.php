@@ -7,8 +7,10 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-$personalUserId = $_SESSION['USERID'];
+//$personalUserId = $_SESSION['USERID'];
 $groupId = $_POST['groupid'];
+$applyTextString = $_POST['applytext'];
+$applyUserid = $_POST['applyuserid'];
 ?>
 
 <html>
@@ -135,20 +137,19 @@ text-align:center;
 <h1>Social Activity Website</h1>
 </div>
 
-<fieldset>
-<legend>Please Input Your Reason For Applying</legend>
-<form action="applygroupresult.php" id="ApplyForm" method="post">
-<p>Reason</p>
-<p>
-<textarea id="applytext"  cols="100" rows ="5" name="applytext"></textarea>
-</p>
-<input type="hidden" name="groupid" value="<?php echo $groupId;?>"/>
-<input type="hidden" name="applyuserid" value="<?php echo $personalUserId;?>"/>
-<p>
-<input type="submit" name="submit" value="Apply" class="left" />
-</p>
-
-</form>
-</fieldset>
+<?php
+	include('conn.php');
+	$queryString = "INSERT INTO USERCONNECTGROUP
+					VALUES($applyUserid,$groupId,0,0,0,1,NULL,'$applyTextString')";
+	echo $queryString;
+	if(mysql_query($queryString,$db)){
+	echo 'Request Sent. Go to the <a href="groupdetails.php?groupid='.$groupId.'">group page</a>.';
+	}
+	else{
+		echo 'Failed to send Request! Go to the <a href="groupdetails.php?groupid='.$groupId.'">group page</a> and try again.';
+	}
+	mysql_free_result($query_result);
+	mysql_close($db);
+?>
 </body>
 </html>

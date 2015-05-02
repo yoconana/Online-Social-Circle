@@ -7,6 +7,10 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
+$personalUserId = $_SESSION['USERID'];
+$groupTitle = $_POST['grouptitle'];
+$groupDescription = $_POST['groupdescription'];
+
 ?>
 <html>
 <style type="text/css">
@@ -69,28 +73,37 @@ if(!isset($_SESSION['USERID'])){
 <h1>Social Activity Website</h1>
 </div>
 
-
+<div id="right">
 <fieldset>
 	<legend>Group Created </legend>
 
 <?php
 
-include('conn.php');
-$tempuserid = $_SESSION['USERID'];
-$queryString= "INSERT INTO GROUPS (GROUPTITLE,GROUPDESCRIPTION) 
-VALUES ('$_POST[GroupTitle]', '$_POST[GroupDescrption]')";
-$query_result = mysql_query($queryString,$db);
-$actvityid =mysql_insert_id();
-$queryStringg = "INSERT INTO USERCONNECTGROUP (USERID , GROUPID , IFMEMBER,IFINVITED ,IFADMIN,IFAPPLYING ) VALUES ($tempuserid ,$actvityid, 0 ,0, ,1,0 )";
-$query_resultt = mysql_query($queryStringg,$db);
+	include('conn.php');
+	$queryString= "INSERT INTO GROUPS (GROUPTITLE,CREATETIME,GROUPDESCRIPTION) 
+		VALUES ('$groupTitle',NOW(), '$groupDescription')";
+	if(mysql_query($queryString,$db)){
+		$generatedGroupid =mysql_insert_id();
+		$queryString = "INSERT INTO USERCONNECTGROUP (USERID , GROUPID , IFMEMBER,IFINVITED ,IFADMIN,IFAPPLYING ) 
+					 VALUES ($personalUserId ,$generatedGroupid, 0 ,0 ,1,0 )";
+		if(mysql_query($queryString,$db)){
+			echo 'Add Succeed! Please view <a href="yourgrouplist.php">your groups </a>';
+		}
+		else{
+			echo 'Add Failed! Please <a href="addgroup.php">go back</a> to try again.';
+		}
+	}
+	else{
+		echo 'Add Failed! Please <a href="addgroup.php">go back</a> to try again.';
+	}
+	
+	
+	//mysql_free_result($query_result);
+	mysql_close($db);
 
 ?>
 
-</p>
-<h2>
-<a href="userinfo.php"> view your Profile </a>
-</h2>
-</p>
 </fieldset>
+</div>
 </body>
 </html>
