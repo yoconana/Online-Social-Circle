@@ -60,12 +60,21 @@ if(!isset($_SESSION['USERID'])){
 	    background-color:#eeeeee;
     
 	    float:left;
-	    width:15%;	      
+	    width:16%;	      
 	}
 	#right {
 	float:right;
-	width:85%;
+	width:84%;
 	}
+	
+	.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 
 <head>

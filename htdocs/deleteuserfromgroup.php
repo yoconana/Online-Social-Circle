@@ -7,14 +7,18 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-$friendUserId = $_POST['friendid'];
-$personalUserId = $_SESSION['USERID'];
+if(!isset($_POST['groupid'])){
+	echo 'Illegal Access!';
+	exit();
+}
+
+$groupId = $_POST['groupid'];
+$deletegroupUserid = $_POST['deleteuserid'];
 ?>
 
 <html>
-
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <style>
 legend{font-weight:bold; font-size:24px;}
 
@@ -143,35 +147,19 @@ html *
 <div id="header">
 <h1>Online Social Circle</h1>
 </div>
-
 <?php
 	include('conn.php');
-	$queryString = "SELECT *
-		FROM FRIENDSHIP
-		WHERE 
-		(USERID1 = $friendUserId AND USERID2 = $personalUserId)
-		OR (USERID1 = $personalUserId AND USERID2 = $friendUserId)";
-	$query_result = mysql_query($queryString,$db);
-	
-	if(mysql_num_rows($query_result) > 0){
-		echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
+	$queryString = "DELETE FROM USERCONNECTGROUP
+					WHERE GROUPID = $groupId AND USERID = $deletegroupUserid";
+	if(mysql_query($queryString,$db)){
+		echo 'Deleted! Go back to the <a href="groupdetails.php?groupid='.$groupId.'">group page</a>.';
 	}
 	else{
-		$queryString = "INSERT INTO FRIENDSHIP(USERID1,USERID2,RELATIONSTATUS)
-						VALUES($personalUserId,$friendUserId,0)";
-		if(mysql_query($queryString,$db)){
-			//insert succeed
-			echo 'Request Sent! Please check your <a href="friendslist.php">friends list</a>.';
-		}
-		else{
-			echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
-		}
+		echo 'Failed! Go back to the <a href="groupdetails.php?groupid='.$groupId.'">group page</a> to try again.';
 	}
-	
 	mysql_free_result($query_result);
 	mysql_close($db);
 ?>
 
 </body>
-
 </html>

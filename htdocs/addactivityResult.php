@@ -61,6 +61,15 @@ if($radio_value=="yes")
 	
 	}
 }
+
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 
 	
@@ -85,8 +94,7 @@ if($radio_value=="yes")
 include('conn.php');
 
 $queryString="INSERT INTO ACTIVITIES (ACTIVITYTITLE,ACTIVITYDESCRIPTION,ACTIVITYLOCATION,ACTIVITYTIME,IFPUBLIC) 
-VALUES ('$ActivityTitle', '$ActivityDescrption','$ActivityLocation','$ActivityTime','$x')";
-
+VALUES ('$ActivityTitle', '$ActivityDescrption','$ActivityLocation','$ActivityTime',$x)";
 if(mysql_query($queryString,$db))
 {
 		$generatedActivityid =mysql_insert_id();

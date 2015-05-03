@@ -115,6 +115,17 @@ text-align:center;
     background-color: #FFF;
 }
 
+
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+
+
 </style>
 </head>
 
@@ -186,9 +197,10 @@ text-align:center;
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 		<tr><td width = "20%"><?php echo $row['ACTIVITYTITLE']; ?></td>
-			<td><form method="get" action="activitydetails.php" onSubmit="return LoginCheck()">
-			    <input type="submit" name="action" value="Detail"/>
-				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
+			<td >
+				<form class="button" method="get" action="activitydetails.php" onSubmit="return LoginCheck()">
+			    <input type="submit" name="submit" value="Detail">
+				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>">
 			    </form>
 			</td>
 		</tr>

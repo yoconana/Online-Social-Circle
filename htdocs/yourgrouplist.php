@@ -7,6 +7,8 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
+$photoPath = 'res/photo'.$_SESSION['PHOTONO'].'.jpg';
+
 ?>
 
 
@@ -33,8 +35,21 @@ table{
     background-color:#eeeeee;
     
     float:left;
-    padding:5px;	      
+    width:16%;	      
 }
+#right {
+	float:right;
+	width:84%;
+	}
+
+#subleft{
+	float:left;
+    width:15%;
+}
+#subright {
+	float:right;
+	width:85%;
+	}
 
 #mainpart {
 	padding:10px;
@@ -115,6 +130,14 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 </head>
 
@@ -132,7 +155,6 @@ text-align:center;
 </div>
 
 <div id="nav">
-<div id=¡°navmenu">
 <ul>
 <li><a href="userinfo.php">Your Activities</a></li>
 <li><a>Your Groups</a></li>
@@ -140,11 +162,15 @@ text-align:center;
 <li><a href="friendslist.php">Your Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
-</div> 
 </div>
 
+<div id="right">
 <fieldset>
 <legend>Personal Information:</legend>
+<div id="subleft">
+<img src="<?php echo $photoPath;?>" alt="Photo0" style="width:80%;">
+</div>
+<div id="subright">
 <table>
 	<tr><td width="200">User Name: </td>
 	    <td><?php echo $_SESSION['USERNAME'];?></td>
@@ -153,7 +179,7 @@ text-align:center;
 	    <td><?php echo $_SESSION['EMAILADDR'];?></td>
 	</tr>
 </table>
-
+</div>
 </fieldset>
 
 <fieldset>
@@ -176,7 +202,7 @@ text-align:center;
 <table>
 	<tr>
 		<td width = "200"><?php echo $row['GROUPTITLE']; ?></td>
-		<td><form method="get" action="groupdetails.php">
+		<td><form class="button" method="get" action="groupdetails.php">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="groupid" value="<?php echo $row['GROUPID']; ?>"/>
 			    </form></td>
@@ -217,7 +243,7 @@ text-align:center;
 	  mysql_close($db); ?>
 
 </fieldset>
-
+</div>
 <div id="footer">
 
 DATABASE SYSTEMS PROJECRT 

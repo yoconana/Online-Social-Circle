@@ -125,6 +125,15 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+
 </style>
 </head>
 
@@ -180,7 +189,7 @@ text-align:center;
 		AND GROUPS.IFDISMISS = 0";
 	$query_result = mysql_query($queryString,$db);
 ?>
-
+<hr>
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 	<tr>
@@ -195,13 +204,13 @@ text-align:center;
 	</tr>
 	<tr>
 		<td>
-			<form method="get" action="groupdetails.php">
+			<form class="button" method="get" action="groupdetails.php">
 			    <input type="submit" name="submit" value="Detail"/>
 				<input type="hidden" name="groupid" value="<?php echo $row['GROUPID']; ?>"/>
 			    </form>
 		</td>
 		<td>
-			<form method="post" action="applytogroup.php">
+			<form class="button" method="post" action="applytogroup.php">
 			<input type="submit" name = "action" value="Apply" class="left"/>
 			<input type="hidden" name="groupid" value="<?php echo $row['GROUPID'];?>"/>
 			</form>

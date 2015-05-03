@@ -126,6 +126,15 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+
 </style>
 </head>
 
@@ -139,7 +148,7 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1>Social Activity Website</h1>
+<h1>Online Social Circle</h1>
 </div>
 
 <div id="nav">
@@ -151,6 +160,7 @@ text-align:center;
 </div>
 
 <div id="right">
+<fieldset>
 <legend>Search for New Activities</legend>
 
 <form name="searchForm" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" onSubmit="return InputCheck(this)">
@@ -180,7 +190,7 @@ text-align:center;
 		AND ACTIVITIES.IFCANCELED = 0";
 	$query_result = mysql_query($queryString,$db);
 ?>
-
+<hr>
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 	<tr>
@@ -195,15 +205,16 @@ text-align:center;
 	</tr>
 	<tr>
 		<td>
-			<form method="get" action="activitydetails.php">
+			<form class="button" method="get" action="activitydetails.php">
 			    <input type="submit" name="submit" value="Detail"/>
-				<input type="hidden" name="groupid" value="<?php echo $row['ACTIVITYID']; ?>"/>
+				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
 			    </form>
 		</td>
 		<td>
-			<form method="post" action="userapplytoactivity.php">
+			<form class="button" method="post" action="userapplytoactivity.php">
 			<input type="submit" name = "action" value="Apply" class="left"/>
 			<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID'];?>"/>
+			<input type="hidden" name="activityuserid" value="<?php echo $personalUserId;?>"/>
 			</form>
 		</td>
 	</tr>

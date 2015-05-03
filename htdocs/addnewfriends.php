@@ -128,6 +128,14 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 
 </head>
@@ -204,10 +212,13 @@ text-align:center;
 	<table>
 	
 	<tr>
+	<td width= "10%">
+	<img src="<?php echo 'res/photo'.$row['PHOTONO'].'.jpg';?>" style="width:80%;">
+	</td>
 	<td width = "10%">UserName: </td>
 	<td width = "10%"><?php echo $row['USERNAME']; ?></td>
 	<td width = "10%">Email: </td>
-	<td width = "10%"><?php echo $row['EMAILADDR']; ?></td>
+	<td width = "15%"><?php echo $row['EMAILADDR']; ?></td>
 	<td width = "10%">Gender: </td>
 	<td width = "10%">
 		<?php 
@@ -221,7 +232,7 @@ text-align:center;
 		?>
 	</td>
 	<td>
-		<form method="post" action="checkandsendFriendRequest.php">
+		<form class="button" method="post" action="checkandsendFriendRequest.php">
 		<input type="submit" name = "action" value="Add" class="left"/>
 		<input type="hidden" name="friendid" value="<?php echo $row['USERID'];?>"/>
 		</form>

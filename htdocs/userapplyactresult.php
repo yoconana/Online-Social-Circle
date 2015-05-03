@@ -122,7 +122,14 @@ text-align:center;
     color: #F90;
     background-color: #FFF;
 }
+.button {
+    margin-bottom:0px;
+}
 
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 </head>
 

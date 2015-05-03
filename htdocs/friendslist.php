@@ -9,9 +9,13 @@ if(!isset($_SESSION['USERID'])){
 
 $searchfriendkeyword = "";
 
+$photoPath = 'res/photo'.$_SESSION['PHOTONO'].'.jpg';
+
 ?>
 
-<style>
+<html>
+<head>
+	<style>
 legend{font-weight:bold; font-size:24px;}
 
 table{
@@ -31,8 +35,22 @@ table{
     background-color:#eeeeee;
     
     float:left;
-    padding:5px;	      
+    width:16%;	      
 }
+#right {
+	float:right;
+	width:84%;
+	}
+
+
+#subleft{
+	float:left;
+    width:15%;
+}
+#subright {
+	float:right;
+	width:85%;
+	}
 
 #mainpart {
 	padding:10px;
@@ -113,9 +131,16 @@ text-align:center;
     background-color: #FFF;
 }
 
-</style>
+.button {
+    margin-bottom:0px;
+}
 
-<html>
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+</style>
+</head>
 <body>
 <div id="menu">
 <ul>
@@ -125,11 +150,10 @@ text-align:center;
 </div>
 
 <div id="header">
-<h1>Online Social Circle</h1>
+<h1><?php echo $_SESSION['USERNAME'];?>'s Online Social Circle</h1>
 </div>
 
 <div id="nav">
-<div id=“navmenu">
 <ul>
 <li><a href="userinfo.php">Your Activities</a></li>
 <li><a href="yourgrouplist.php">Your Groups</a></li>
@@ -137,11 +161,15 @@ text-align:center;
 <li><a href="addnewfriends.php">Add new Friends</a></li>
 <li><a href="search.php"> Search </a></li>
 </ul>
-</div> 
 </div>
 
+<div id="right">
 <fieldset>
 <legend>Personal Information:</legend>
+<div id="subleft">
+<img src="<?php echo $photoPath;?>" alt="Photo0" style="width:80%;">
+</div>
+<div id="subright">
 <table>
 	<tr><td width="200">User Name: </td>
 	    <td><?php echo $_SESSION['USERNAME'];?></td>
@@ -150,7 +178,7 @@ text-align:center;
 	    <td><?php echo $_SESSION['EMAILADDR'];?></td>
 	</tr>
 </table>
-
+</div>
 </fieldset>
 
 <fieldset>
@@ -160,7 +188,7 @@ text-align:center;
 	include('conn.php');
 	$tempuserid = $_SESSION['USERID'];
 	
-	$queryString = "SELECT USERS.USERID, USERS.USERNAME, USERS.EMAILADDR, USERS.BIRTHDATE, USERS.GENDER,FRELIST.RSST
+	$queryString = "SELECT USERS.USERID, USERS.PHOTONO,USERS.USERNAME, USERS.EMAILADDR, USERS.BIRTHDATE, USERS.GENDER,FRELIST.RSST
 	FROM
 	((SELECT USERID2 USID,RELATIONSTATUS RSST
 	FROM FRIENDSHIP
@@ -176,10 +204,14 @@ text-align:center;
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 	<tr>
-	<td width = "100px">UserName: </td>
-	<td width = "200px"><?php echo $row['USERNAME']; ?></td>
-	<td width = "100px">Gender: </td>
-	<td width = "200px">
+	<td width = "10%">
+		<img src="<?php echo 'res/photo'.$row['PHOTONO'].'.jpg';?>" style="width:80%;">
+	
+	</td>
+	<td width = "10%">UserName: </td>
+	<td width = "15%"><?php echo $row['USERNAME']; ?></td>
+	<td width = "10%">Gender: </td>
+	<td width = "10%">
 		<?php 
 		$tempgender = $row['GENDER']; 
 		if($tempgender == 1){
@@ -190,22 +222,33 @@ text-align:center;
 		}
 		?>
 	</td>
-	<td width = "100px">Relationship: </td>
-	<td>
+	<td width = "15%">Relationship: </td>
+	<td  width="10%">
 	<?php 
 		$tempStatus = $row['RSST']; 
 		if($tempStatus == 1||$tempStatus == 11){
-			echo "Friends";
+			echo 'Friends</td>
+				  <td><form class="button" method="post" action="deletefriend.php">
+					<input type="submit" name="submit" value="Delete"/>
+					<input type="hidden" name="friendid" value="'.$row['USERID'].'"/>
+					</form>
+				  </td>';
 		}
 		else if($tempStatus == 0){
-			echo "Request Sent";
+			echo "Request Sent</td><td>";
 		}
 		else if($tempStatus == 10){
 			$tempfrid = $row['USERID'];
-			echo '<form method="post" action="acceptinvatation.php">
-			    <input type="submit" name="action" value="Accept Invitation"/>
+			echo '<form class="button" method="post" action="acceptinvatation.php">
+			    <input type="submit" name="action" value="Accept"/>
 				<input type="hidden" name="friendid" value="'.$tempfrid.'"/>
 			    </form>';
+			echo '</td><td>
+					<form class="button" method="post" action="deletefriend.php">
+					<input type="submit" name="submit" value="Reject"/>
+					<input type="hidden" name="friendid" value="'.$row['USERID'].'"/>
+					</form>
+			</td>';
 		}
 	?>
 	</td>
@@ -218,5 +261,10 @@ text-align:center;
 
 </fieldset>
 
+</div>
+<div id="footer">
+
+DATABASE SYSTEMS PROJECRT 
+</div>
 </body>
 </html>

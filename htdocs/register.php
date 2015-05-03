@@ -36,6 +36,14 @@
     padding: 8px 8px 8px 8px;
 	
 	}
+	.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 	
 	
 </style>
@@ -65,13 +73,11 @@ $password = $_POST['password'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $birthdate = $_POST['birthdate'];
-
-
-echo $birthdate;
+$photono = 0;
 
 include 'connection.php';
 	$myDbOperation = new DatabaseOperation();
-	$result = $myDbOperation->UserRegiser($username,$password,$email,$gender,$birthdate);
+	$result = $myDbOperation->UserRegiser($username,$password,$email,$gender,$birthdate,$photono);
 	if($result == 0){
 		echo 'Error ! ',$email,' already exists.<a href="javascript:history.back(-1);">Return</a>';
 		exit;

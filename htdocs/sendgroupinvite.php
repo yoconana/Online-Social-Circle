@@ -126,6 +126,15 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+
 </style>
 </head>
 <body>

@@ -56,7 +56,16 @@ $groupDescription = $_POST['groupdescription'];
     padding: 8px 8px 8px 8px;
 	
 	}
+.button {
+    margin-bottom:0px;
 }
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+
+
 </style>
 
 	

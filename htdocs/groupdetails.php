@@ -38,6 +38,7 @@ table{
     float:left;	      
 }
 
+
 #subleft{
 	float:left;
 	width:60%;
@@ -132,6 +133,14 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 </head>
 
@@ -161,8 +170,7 @@ text-align:center;
 
 <div id="right">
 
-<fieldset>
-<legend>Group Information:</legend>
+
 <?php
 	include('conn.php');
 	
@@ -186,11 +194,19 @@ text-align:center;
 	}
 	$groupinfo = mysql_fetch_array($query_result);
 	
+	if(mysql_num_rows($query_result) == 0){
+		echo 'Error! Group Not Existing!';
+		mysql_free_result($query_result);
+		mysql_close($db);
+		exit();
+	}
+	
 	//mysql_free_result($query_result);
 	//mysql_close($db);
 ?>
 
-
+<fieldset>
+<legend>Group Information:</legend>
 	<table>
 		<tr>
 			<td width='20%'>Title: </td>
@@ -211,7 +227,7 @@ text-align:center;
 			<td>
 			<?php
 				if($completelyNew == 1){
-					echo '<form method="post" action="applytogroup.php">
+					echo '<form class="button" method="post" action="applytogroup.php">
 					<input type="submit" name="action" value="Apply"/>
 					<input type="hidden" name="groupid" value="'.$groupId.'"/>
 					</form>';
@@ -219,8 +235,8 @@ text-align:center;
 				else{
 					if($groupinfo['IFADMIN'] == 1){
 						$ifgroupAdmin = 1;
-						echo '<form method="post" action="sendgroupinvite.php">
-						<input type="submit" name="action" value="Send Invitation to Your Friends"/>
+						echo '<form class="button" method="post" action="sendgroupinvite.php">
+						<input type="submit" name="action" value="Send Invitation to Friends"/>
 						<input type="hidden" name="groupid" value="'.$groupId.'"/>
 						</form>';
 					}
@@ -228,7 +244,7 @@ text-align:center;
 						echo 'Member';
 					}
 					else if($groupinfo['IFINVITED'] == 1){
-						echo '<form method="post" action="acceptgroupinvite.php">
+						echo '<form class="button" method="post" action="acceptgroupinvite.php">
 						<input type="submit" name="action" value="Accept"/>
 						<input type="hidden" name="groupid" value="'.$groupId.'"/>
 						<input type="hidden" name="acceptuserid" value = "'.$persnalUserId.'"/>
@@ -247,6 +263,9 @@ text-align:center;
 <div id="subleft">
 <fieldset>
 <legend>Group Activities</legend>
+
+<?php if ($groupinfo['IFMEMBER'] == 1||$groupinfo['IFADMIN'] == 1): ?>
+
 <?php
 	$queryString = "SELECT ACTIVITIES.*
 				FROM ACTIVITIES,ACTIVITYASSIGNEDTOGROUP
@@ -261,7 +280,7 @@ text-align:center;
 
 	<table>
 		<tr><td width = "200"><?php echo $row['ACTIVITYTITLE']; ?></td>
-			<td ><form method="get" action="activitydetails.php">
+			<td ><form class="button" method="get" action="activitydetails.php">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
 			    </form>
@@ -279,12 +298,20 @@ text-align:center;
 	</table>
 	<hr>
 <?php endwhile; ?>
+
+<?php else: ?>
+
+-Only members can see this area-
+
+<?php endif; ?> 
 </fieldset>
 </div>
 
 <div id="subright">
 <fieldset>
 <legend>Group Members</legend>
+
+<?php if ($groupinfo['IFMEMBER'] == 1||$groupinfo['IFADMIN'] == 1): ?>
 <?php
 	$queryString = "SELECT USERS.USERID,USERS.USERNAME,USERS.EMAILADDR,IFMEMBER,IFINVITED,IFADMIN,IFAPPLYING,APPLYWHEN,APPLYREASON
 	FROM USERS,USERCONNECTGROUP
@@ -307,7 +334,7 @@ text-align:center;
 	}
 	else if($row['IFMEMBER'] == 1){
 		if($ifgroupAdmin == 1){
-			echo '<form method="post" action="deleteuserfromgroup.php">
+			echo '<form class="button" method="post" action="deleteuserfromgroup.php">
 					<input type="submit" name="action" value="Delete"/>
 					<input type="hidden" name="groupid" value="'.$groupId.'"/>
 					<input type="hidden" name="deleteuserid" value = "'.$row['USERID'].'"/>
@@ -322,12 +349,19 @@ text-align:center;
 	}
 	else if($row['IFAPPLYING'] == 1){
 		if($ifgroupAdmin == 1){
-			echo '<form method="post" action="acceptgroupinvite.php">
-					<input type="submit" name="action" value="Accept Application"/>
+			echo '<form class="button" method="post" action="acceptgroupinvite.php">
+					<input type="submit" name="action" value="Accept"/>
 					<input type="hidden" name="groupid" value="'.$groupId.'"/>
 					<input type="hidden" name="acceptuserid" value = "'.$row['USERID'].'"/>
-					</form>';
-			echo '</td></tr><tr><td>Apply Reason: </td><td>'.$row['APPLYREASON'];
+					</form></td>';
+			echo '<td>
+					<form class="button" method="post" action="deleteuserfromgroup.php">
+					<input type="submit" name="action" value="Reject"/>
+					<input type="hidden" name="groupid" value="'.$groupId.'"/>
+					<input type="hidden" name="deleteuserid" value = "'.$row['USERID'].'"/>
+					</form>
+				 </td>';
+			echo '</td></tr><tr><td colspan="4">Apply Reason: '.$row['APPLYREASON'];
 		}
 		else{
 			echo 'Applying';
@@ -339,15 +373,23 @@ text-align:center;
 	</table>
 	<hr>
 <?php endwhile; ?>
-</fieldset>
-</div>
-
-</div>
 
 <?php
 	mysql_free_result($query_result);
 	mysql_close($db);
 ?>
+
+<?php else: ?>
+
+-Only members can see this area-
+
+<?php endif; ?> 
+</fieldset>
+</div>
+
+</div>
+
+
 
 <div id="footer">
 

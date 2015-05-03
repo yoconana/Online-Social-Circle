@@ -33,7 +33,14 @@
 	
 	}
 	
-	
+	.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 
 <body>
@@ -57,6 +64,7 @@ if($_GET['action'] == "logout"){
 	unset($_SESSION['USERID']);
     unset($_SESSION['EMAILADDR']);
 	unset($_SESSION['BIRTHDATE']);
+	unset($_SESSION['PHOTONO']);
     echo 'Log out Succeed! Please click here to <a href="login.php">Log in</a>';
     exit;
 }
@@ -75,6 +83,7 @@ if($result = mysql_fetch_array($user_query)){
     $_SESSION['USERID'] = $result['USERID'];
 	$_SESSION['EMAILADDR'] = $result['EMAILADDR'];
 	$_SESSION['BIRTHDATE'] = $result['BIRTHDATE'];
+	$_SESSION['PHOTONO'] = $result['PHOTONO'];
 	$tempuser = $result['USERNAME'];
 	
 	echo 'Welcome, '.$tempuser.'! You can go to our <a href="publicactivity.php">Public Page</a>';

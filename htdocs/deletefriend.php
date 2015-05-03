@@ -7,15 +7,19 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-$friendUserId = $_POST['friendid'];
+if(!isset($_POST['friendid'])){
+	echo 'Illegal Access!';
+	exit();
+}
+
+$deleteFriendid = $_POST['friendid'];
 $personalUserId = $_SESSION['USERID'];
+
 ?>
 
 <html>
-
 <head>
-	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<style>
+	<style>
 legend{font-weight:bold; font-size:24px;}
 
 table{
@@ -33,14 +37,24 @@ table{
 #nav {
     line-height:30px;
     background-color:#eeeeee;
-    width:15%;
-    float:left;	      
+    
+    float:left;
+    width:16%;	      
 }
-
 #right {
 	float:right;
-	width:85%;
+	width:84%;
+	}
+
+
+#subleft{
+	float:left;
+    width:15%;
 }
+#subright {
+	float:right;
+	width:85%;
+	}
 
 #mainpart {
 	padding:10px;
@@ -133,6 +147,7 @@ html *
 </head>
 
 <body>
+
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
@@ -146,32 +161,18 @@ html *
 
 <?php
 	include('conn.php');
-	$queryString = "SELECT *
-		FROM FRIENDSHIP
-		WHERE 
-		(USERID1 = $friendUserId AND USERID2 = $personalUserId)
-		OR (USERID1 = $personalUserId AND USERID2 = $friendUserId)";
-	$query_result = mysql_query($queryString,$db);
-	
-	if(mysql_num_rows($query_result) > 0){
-		echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
+	$queryString = "DELETE FROM FRIENDSHIP
+		WHERE (USERID1 = $deleteFriendid AND USERID2 = $personalUserId)
+		OR (USERID1 = $personalUserId AND USERID2 = $deleteFriendid)";
+	if(mysql_query($queryString,$db)){
+		echo 'Now you are not friends! Please check the <a href="friendslist.php">friends list</a> for more information.';
 	}
 	else{
-		$queryString = "INSERT INTO FRIENDSHIP(USERID1,USERID2,RELATIONSTATUS)
-						VALUES($personalUserId,$friendUserId,0)";
-		if(mysql_query($queryString,$db)){
-			//insert succeed
-			echo 'Request Sent! Please check your <a href="friendslist.php">friends list</a>.';
-		}
-		else{
-			echo 'Add Failed! Please check your <a href="friendslist.php">friends list</a> to see the status';
-		}
+		echo 'Failed! Please check the <a href="friendslist.php">friends list</a> for more information.';
 	}
 	
 	mysql_free_result($query_result);
 	mysql_close($db);
 ?>
-
 </body>
-
 </html>

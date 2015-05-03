@@ -7,7 +7,7 @@ if(!isset($_SESSION['USERID'])){
     exit();
 }
 
-
+$photoPath = 'res/photo'.$_SESSION['PHOTONO'].'.jpg';
 ?>
 
 <html>
@@ -32,8 +32,21 @@ table{
     background-color:#eeeeee;
     
     float:left;
-    padding:5px;	      
+    width:16%;     
 }
+
+#right {
+	float:right;
+	width:84%;
+	}
+#subleft{
+	float:left;
+    width:15%;
+}
+#subright {
+	float:right;
+	width:85%;
+	}
 
 #mainpart {
 	padding:10px;
@@ -114,6 +127,15 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
+
 </style>
 
 
@@ -140,9 +162,14 @@ text-align:center;
 </ul>
 </div>
 
+<div id="right">
 <fieldset>
 <legend>Personal Information:</legend>
+<div id="subleft">
+<img src="<?php echo $photoPath;?>" alt="Photo0" style="width:80%;">
+</div>
 
+<div id="subright">
 <table>
 	<tr><td width="200">User Name: </td>
 	    <td><?php echo $_SESSION['USERNAME'];?></td>
@@ -169,7 +196,7 @@ text-align:center;
 		}
 	?>
 </table>
-
+</div>
 </fieldset>
 
 <fieldset>
@@ -184,6 +211,7 @@ text-align:center;
 	FROM USERS, USERCONNECTACTIVITY, ACTIVITIES
 	WHERE USERS.USERID = USERCONNECTACTIVITY.USERID
 	AND USERCONNECTACTIVITY.ACTIVITYID = ACTIVITIES.ACTIVITYID 
+	AND IFCANCELED = 0
 	AND USERS.USERID = $tempuserid";
 	$query_result = mysql_query($queryString,$db);
 ?>
@@ -191,7 +219,7 @@ text-align:center;
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 	<table>
 		<tr><td width = "200"><?php echo $row['ACTIVITYTITLE']; ?></td>
-			<td><form method="get" action="activitydetails.php">
+			<td><form class ="button" method="get" action="activitydetails.php">
 			    <input type="submit" name="action" value="Detail"/>
 				<input type="hidden" name="activityid" value="<?php echo $row['ACTIVITYID']; ?>"/>
 			    </form>
@@ -208,14 +236,14 @@ text-align:center;
 				echo "Member";
 			}
 			else if($row['IFINVITED'] == 1){
-				echo '<form method="post" action="adduserasactmember.php">
+				echo '<form method="post" class ="button" action="adduserasactmember.php">
 			    <input type="submit" name="action" value="Accept Invitation"/>
 				<input type="hidden" name="activityid" value="'.$row['ACTIVITYID'].'"/>
 					<input type="hidden" name="activityuserid" value = "'.$row['USERID'].'"/>
 			    </form>';
 			}
 			else if($row['IFAPPLYING'] == 1){
-				echo "Applying...";
+				echo "Applying";
 			}
 		?>
 		</td>
@@ -236,6 +264,7 @@ text-align:center;
 	  mysql_free_result($query_result);
 	  mysql_close($db); ?>
 </fieldset>
+</div>
 
 <div id="footer">
 

@@ -5,7 +5,9 @@ session_start();
     unset($_SESSION['USERNAME']);
     unset($_SESSION['USERID']);
 	unset($_SESSION['EMAILADDR']);
-    
+	unset($_SESSION['USERID']);
+    unset($_SESSION['BIRTHDATE']);
+	unset($_SESSION['PHOTONO']);
 ?>
 
 <html>
@@ -117,6 +119,14 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 </head>
 <body>

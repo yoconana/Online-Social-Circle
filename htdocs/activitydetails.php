@@ -122,6 +122,14 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 
 </head>
@@ -153,7 +161,7 @@ text-align:center;
 
 
 <div id="right">
-<fieldset>
+
 
 <?php
 include('conn.php');
@@ -189,20 +197,28 @@ $queryString = "SELECT *
 		$activityinfo = mysql_fetch_array($query_result);
 	}
 	
+	if($activityinfo['IFCANCELED'] == 1){
+		mysql_free_result($query_result);
+		mysql_close($db);
+		echo 'Error! Activity Not Existing!';
+		exit();
+	}
+	
 ?>
+<fieldset>
 <legend><?php
 	echo $activityinfo['ACTIVITYTITLE'];
 	mysql_free_result($query_result);
 	mysql_close($db);
 ?></legend>
 <table>
-	<tr><td width="200">Location: </td>
+	<tr><td width="20%">Location: </td>
 	    <td><?php echo $activityinfo['ACTIVITYLOCATION'];?></td>
 	</tr>
-	<tr><td width="200">Time: </td>
+	<tr><td width="20%">Time: </td>
 	    <td><?php echo $activityinfo['ACTIVITYTIME'];?></td>
 	</tr>
-	<tr><td width="200">Description: </td>
+	<tr><td width="20%">Description: </td>
 		<td><?php echo $activityinfo['ACTIVITYDESCRIPTION'];?></td>
 	</tr>
 	<tr>
@@ -212,17 +228,17 @@ $queryString = "SELECT *
 	if($ifcreator == 1){
 		//creator. need edit button
 		echo 'Creator</td></tr><tr><td>';
-		echo '<form method="post" action="sendactinvite.php">
-			    <input type="submit" name="action" value="Send Invitation to Your Friends"/>
+		echo '<form class="button" method="post" action="sendactinvite.php">
+			    <input type="submit" name="action" value="Send Invitation to Friends"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 			    </form>';
-		echo '</td><td><form method="post" action="assignactogroup.php">
+		echo '</td><td><form class="button" method="post" action="assignactogroup.php">
 			    <input type="submit" name="action" value="Assign to your Groups"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 			    </form></td><td>';
 	}
 	else if($comletelyNewmember == 1){
-		echo '<form method="post" action="userapplytoactivity.php">
+		echo '<form class="button" method="post" action="userapplytoactivity.php">
 			    <input type="submit" name="action" value="Apply"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
@@ -233,7 +249,7 @@ $queryString = "SELECT *
 	}
 	else if($ifinvited == 1){
 		echo 'Invited</td></tr><tr><td>';
-		echo '<form method="post" action="adduserasactmember.php">
+		echo '<form class="button" method="post" action="adduserasactmember.php">
 			    <input type="submit" name="action" value="Accept Invitation"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
@@ -252,12 +268,14 @@ $queryString = "SELECT *
 <fieldset>
 <legend>List of Participants</legend>
 
+<?php if ($ifmember == 1||$ifcreator == 1): ?>
+
 <?php
 include('conn.php');
 	
 $tempuserid = $_SESSION['USERID'];
 
-$queryString = "SELECT USERS.USERID,USERNAME,EMAILADDR,GENDER,IFATTEND,IFINVITED,IFCREATOR,IFAPPLYING,APPLYREASON
+$queryString = "SELECT USERS.USERID,USERNAME,EMAILADDR,GENDER,PHOTONO,IFATTEND,IFINVITED,IFCREATOR,IFAPPLYING,APPLYREASON
 	FROM USERS,USERCONNECTACTIVITY
 	WHERE USERS.USERID = USERCONNECTACTIVITY.USERID
 	AND USERCONNECTACTIVITY.ACTIVITYID = $activityid";
@@ -267,10 +285,13 @@ $query_result = mysql_query($queryString,$db);
 <?php while ($row = mysql_fetch_array($query_result)) : ?>
 <table>
 	<tr>
+		<td width="10%">
+		<img src="<?php echo 'res/photo'.$row['PHOTONO'].'.jpg';?>" style="width:80%;">
+		</td>
 		<td width="10%">Username: </td>
 		<td width="10%"><?php echo $row['USERNAME']; ?></td>
 		<td width="10%">Email Address: </td>
-		<td width="10%"><?php echo $row['EMAILADDR']; ?></td>
+		<td width="15%"><?php echo $row['EMAILADDR']; ?></td>
 		<td width="10%">Gender: </td>
 		<td width="10%"><?php 
 			if($row['GENDER'] == 1){
@@ -299,34 +320,47 @@ $query_result = mysql_query($queryString,$db);
 			if($ifcreator == 1){
 				//creator
 				if($row['IFCREATOR'] == 1){
-					echo '-';
+					echo '-</td>';
 				}
 				else if($row['IFATTEND'] == 1){
-					echo '<form method="post" action="deleteuserfromac.php">
+					echo '<form class="button" method="post" action="deleteuserfromac.php">
 					<input type="submit" name="action" value="Delete"/>
 					<input type="hidden" name="activityid" value="'.$activityid.'"/>
 					<input type="hidden" name="deleteuserid" value = "'.$row['USERID'].'"/>
-					</form>';
+					</form></td>';
 				}
 				else if($row['IFINVITED'] == 1){
-					echo '-';
+					echo '-</td>';
 				}
 				else{
-					echo '<form method="post" action="adduserasactmember.php">
+					echo '<form class="button" method="post" action="adduserasactmember.php">
 					<input type="submit" name="action" value="Accept"/>
 					<input type="hidden" name="activityid" value="'.$activityid.'"/>
 					<input type="hidden" name="activityuserid" value = "'.$row['USERID'].'"/>
 					</form>';
-					echo '</td></tr><tr><td width="10%">Apply Reason: </td><td>'.$row['APPLYREASON'];
+					//echo '</td></tr><tr><td width="10%">Apply Reason: </td><td>'.$row['APPLYREASON'];
+					echo '</td></tr><tr><td colspan="9">Apply Reason: '.$row['APPLYREASON'].'</td>';
+					echo '<td><form class="button" method="post" action="deleteuserfromac.php">
+					<input type="submit" name="action" value=" Reject "/>
+					<input type="hidden" name="activityid" value="'.$activityid.'"/>
+					<input type="hidden" name="deleteuserid" value = "'.$row['USERID'].'"/>
+					</form></td>
+					</td>';
 				}
 			}
-		?></td>
+		?>
 	</tr>
 </table>
 <hr>
 <?php endwhile; 
 	  mysql_free_result($query_result);
 	  mysql_close($db); ?>
+	  
+<?php else: ?>
+
+-Only members can see this area-
+
+<?php endif; ?> 
 
 </fieldset>
 </div>

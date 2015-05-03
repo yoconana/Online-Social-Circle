@@ -122,6 +122,14 @@ text-align:center;
     background-color: #FFF;
 }
 
+.button {
+    margin-bottom:0px;
+}
+
+html *
+{
+   font-family: Century Gothic, sans-serif;
+}
 </style>
 </head>
 
@@ -141,7 +149,7 @@ text-align:center;
 	include('conn.php');
 	$queryString = "INSERT INTO USERCONNECTGROUP
 					VALUES($applyUserid,$groupId,0,0,0,1,NULL,'$applyTextString')";
-	echo $queryString;
+	//echo $queryString;
 	if(mysql_query($queryString,$db)){
 	echo 'Request Sent. Go to the <a href="groupdetails.php?groupid='.$groupId.'">group page</a>.';
 	}
