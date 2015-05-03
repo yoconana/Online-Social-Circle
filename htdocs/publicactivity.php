@@ -33,6 +33,7 @@ table{
 #right {
 	float:right;
 	width:85%;
+	
 	}
 
 #mainpart {
@@ -123,6 +124,7 @@ text-align:center;
 html *
 {
    font-family: Century Gothic, sans-serif;
+   
 }
 
 
@@ -140,7 +142,7 @@ html *
 		echo "<a href=\"login.php\">Login</a>";
 	}
 	else{
-		echo "<a href=\"userinfo.php\">Profile</a>";
+		echo '<a href="userinfo.php">'.$_SESSION['USERNAME'].'\'s Profile</a>';
 	}
 ?></li>
 <!--<li><a href="login.php">Login</a></li>-->

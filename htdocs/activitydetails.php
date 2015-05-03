@@ -140,7 +140,7 @@ html *
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
-<li><a href="userinfo.php">Profile</a></li>
+<li><a href="userinfo.php"><?php echo $_SESSION['USERNAME'];?>'s Profile</a></li>
 <li><a href="logout.php">Log out</a></li>
 
 </div>
@@ -263,6 +263,22 @@ $queryString = "SELECT *
 	</tr>
 </table>
 <hr>
+<?php
+	if($ifcreator == 1){
+		echo '<form class="button" method="post" action="">
+			    <input type="submit" name="action" value="Delete Activity"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
+				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
+			    </form>';
+	}
+	else if($ifmember == 1){
+		echo '<form class="button" method="post" action="deleteuserfromac.php">
+			    <input type="submit" name="action" value="Opt Out"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
+				<input type="hidden" name="deleteuserid" value = "'.$tempuserid.'"/>
+			    </form>';
+	}
+?>
 </fieldset>
 
 <fieldset>

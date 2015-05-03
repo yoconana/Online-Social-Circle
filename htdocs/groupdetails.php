@@ -150,6 +150,7 @@ html *
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
+<li><a href="userinfo.php"><?php echo $_SESSION['USERNAME'];?>'s Profile</a></li>
 <li><a href="logout.php">Log out</a></li>
 
 </div>
@@ -258,7 +259,23 @@ html *
 			</td>
 		</tr>
 	</table>
-	
+	<hr>
+	<?php
+		if($groupinfo['IFADMIN'] == 1){
+			echo '<form class="button" method="post" action="">
+						<input type="submit" name="action" value="Delete Group"/>
+						<input type="hidden" name="groupid" value="'.$groupId.'"/>
+						<input type="hidden" name="deleteuserid" value = "'.$persnalUserId.'"/>
+						</form>';
+		}
+		else if($groupinfo['IFMEMBER'] == 1){
+			echo '<form class="button" method="post" action="deleteuserfromgroup.php">
+						<input type="submit" name="action" value="Opt Out"/>
+						<input type="hidden" name="groupid" value="'.$groupId.'"/>
+						<input type="hidden" name="deleteuserid" value = "'.$persnalUserId.'"/>
+						</form>';
+		}
+	?>
 </fieldset>
 <div id="subleft">
 <fieldset>

@@ -85,7 +85,8 @@ html *
 <div id="menu">
 <ul>
 <li><a href="publicactivity.php">Home</a></li>
-<li><a href="userinfo.php">Profile</a></li>
+<li><a href="userinfo.php"><?php echo $_SESSION['USERNAME'];?>'s Profile</a></li>
+<li><a href="logout.php">Log out</a></li>
 </ul>
 </div>
 
