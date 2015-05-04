@@ -43,14 +43,6 @@
     padding: 8px 8px 8px 8px;
 	
 	}
-	
-.button {
-    margin-bottom:0px;
-}
-
-html *
-{
-   font-family: Century Gothic, sans-serif;
 }
 </style>
 
@@ -101,10 +93,20 @@ html *
 <input type="radio" name="gender" value="female"/> Female <br/>
 
 </p>
+<p>
 <label for="birthdate" class="label">Birth Date:</label>
 <input id="birthdate" name="birthdate" type="date" class="input" />
+</p>
 <p>
-
+<label for="profilepic" class="label">Profile Picture:</label>
+<select onchange="change_image(this.value)">
+<option value="picture1" selected="selected">Picture 1 </option>
+<option value="picture2">Picture 2 </option>
+<option value="picture3">Picture 3 </option>
+<option value="picture4">Picture 4 </option>
+<option value="picture5">Picture 5 </option>
+</select>
+<p><table><td id='imageHolder1'> </td></table>
 </p>
 <p>
 <input type="submit" name="submit" value="  Submit  " class="left" />
@@ -142,6 +144,33 @@ function InputCheck(RegForm)
     return (false);
   }
 }
+
+
+function change_image(profilepic){
+var dynamic_src="";
+switch(profilepic){
+ case "picture1":
+  document.getElementById('imageHolder1').innerHTML="<a href='#'><img src='https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcR3TkCd-znc4_1yuaTHaIfObs5J0FiIsyM8pz2X43QwHYgmwmHD' style='max-width:40%' border='0'/></a>";
+ break;
+case "picture2":
+  document.getElementById('imageHolder1').innerHTML="<a href='#'><img src='http://data3.whicdn.com/images/161465572/large.jpg' style='max-width:40%' align='center'  border='0'/></a>";
+ break;
+ 
+case "picture3":
+  document.getElementById('imageHolder1').innerHTML="<a href='#'><img src='http://photo.qwled.com/media/images/0cb8be4c21.jpg' style='max-width:40%'  border='0'/></a>";
+ break;
+case "picture4":
+  document.getElementById('imageHolder1').innerHTML="<a href='#'><img src='http://data1.whicdn.com/images/155320422/large.jpg' style='max-width:40%'  border='0'/></a>";
+ break;
+case "picture5":
+  document.getElementById('imageHolder1').innerHTML="<a href='#'><img src='http://love-messages.cc/images/img_1/0088c3faa6ed9fd596312edabae36afe.jpg' style='max-width:40%'  border='0'/></a>";
+ break;
+
+}
+
+$('#image_to_be_replaced').attr('src',dynamic_src);
+}
+
 
 //-->
 </script>
