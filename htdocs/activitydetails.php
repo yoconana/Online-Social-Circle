@@ -253,7 +253,13 @@ $queryString = "SELECT *
 			    <input type="submit" name="action" value="Accept Invitation"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
-			    </form>';
+			    </form></td>';
+		echo '<td><form class="button" method="post" action="deleteuserfromac.php">
+			    <input type="submit" name="action" value="Reject Invitation"/>
+				<input type="hidden" name="activityid" value="'.$activityid.'"/>
+				<input type="hidden" name="deleteuserid" value = "'.$tempuserid.'"/>
+			    </form>
+		     ';
 	}
 	else if($ifapplying == 1){
 		echo 'Applying';
@@ -265,8 +271,8 @@ $queryString = "SELECT *
 <hr>
 <?php
 	if($ifcreator == 1){
-		echo '<form class="button" method="post" action="">
-			    <input type="submit" name="action" value="Delete Activity"/>
+		echo '<form class="button" method="post" action="deletewholeactivity.php">
+			    <input type="submit" name="action" value="Delete this Activity"/>
 				<input type="hidden" name="activityid" value="'.$activityid.'"/>
 				<input type="hidden" name="activityuserid" value = "'.$tempuserid.'"/>
 			    </form>';

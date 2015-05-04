@@ -73,7 +73,7 @@ $password = $_POST['password'];
 $email = $_POST['email'];
 $gender = $_POST['gender'];
 $birthdate = $_POST['birthdate'];
-$photono = 0;
+$photono = $_POST['profilepic'];
 
 include 'connection.php';
 	$myDbOperation = new DatabaseOperation();

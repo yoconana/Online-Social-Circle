@@ -162,7 +162,7 @@ html *
 <div id="nav">
 <ul>
 <li><a href="yourgrouplist.php">Your Groups</a></li>
-<li><a href="userinfo.php">Profile</a></li>
+<li><a href="userinfo.php">Your Activities</a></li>
 <li><a href="friendslist.php">Friends</a></li>
 <li><a href="search.php">Search</a></li>
 </ul>
@@ -211,24 +211,24 @@ html *
 	<table>
 		<tr>
 			<td width='20%'>Title: </td>
-			<td><?php echo $groupinfo['GROUPTITLE'];?>
+			<td colspan="2"><?php echo $groupinfo['GROUPTITLE'];?>
 			</td>
 		</tr>
 			
 		<tr>
 		<td width='20%'>Create Time: </td>
-		<td><?php echo $groupinfo['CREATETIME'];?></td>
+		<td colspan="2"><?php echo $groupinfo['CREATETIME'];?></td>
 		</tr>
 		<tr>
 		<td width = '20%'>Description: </td>
-		<td><?php echo $groupinfo['GROUPDESCRIPTION'];?></td>
+		<td colspan="2"><?php echo $groupinfo['GROUPDESCRIPTION'];?></td>
 		</tr>
 		<tr>
 			<td width = "20%">Status: </td>
-			<td>
+			
 			<?php
 				if($completelyNew == 1){
-					echo '<form class="button" method="post" action="applytogroup.php">
+					echo '<td><form class="button" method="post" action="applytogroup.php">
 					<input type="submit" name="action" value="Apply"/>
 					<input type="hidden" name="groupid" value="'.$groupId.'"/>
 					</form>';
@@ -236,23 +236,28 @@ html *
 				else{
 					if($groupinfo['IFADMIN'] == 1){
 						$ifgroupAdmin = 1;
-						echo '<form class="button" method="post" action="sendgroupinvite.php">
+						echo '<td><form class="button" method="post" action="sendgroupinvite.php">
 						<input type="submit" name="action" value="Send Invitation to Friends"/>
 						<input type="hidden" name="groupid" value="'.$groupId.'"/>
 						</form>';
 					}
 					else if($groupinfo['IFMEMBER'] == 1){
-						echo 'Member';
+						echo '<td>Member';
 					}
 					else if($groupinfo['IFINVITED'] == 1){
-						echo '<form class="button" method="post" action="acceptgroupinvite.php">
-						<input type="submit" name="action" value="Accept"/>
+						echo '<td width="15%"><form class="button" method="post" action="acceptgroupinvite.php">
+						<input type="submit" name="action" value="Accept Invitation"/>
 						<input type="hidden" name="groupid" value="'.$groupId.'"/>
 						<input type="hidden" name="acceptuserid" value = "'.$persnalUserId.'"/>
 						</form>';
+						echo '</td><td><form class="button" method="post" action="deleteuserfromgroup.php">
+						<input type="submit" name="action" value="Reject Invitation"/>
+						<input type="hidden" name="groupid" value="'.$groupId.'"/>
+						<input type="hidden" name="deleteuserid" value = "'.$persnalUserId.'"/>
+						</form>';
 					}
 					else if($groupinfo['IFAPPLYING'] == 1){
-						echo 'Applying';
+						echo '<td>Applying';
 					}
 				}
 			?>
@@ -262,8 +267,8 @@ html *
 	<hr>
 	<?php
 		if($groupinfo['IFADMIN'] == 1){
-			echo '<form class="button" method="post" action="">
-						<input type="submit" name="action" value="Delete Group"/>
+			echo '<form class="button" method="post" action="deletewholegroup.php">
+						<input type="submit" name="action" value="Delete this Group"/>
 						<input type="hidden" name="groupid" value="'.$groupId.'"/>
 						<input type="hidden" name="deleteuserid" value = "'.$persnalUserId.'"/>
 						</form>';

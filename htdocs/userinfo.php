@@ -236,11 +236,7 @@ html *
 				echo "Member";
 			}
 			else if($row['IFINVITED'] == 1){
-				echo '<form method="post" class ="button" action="adduserasactmember.php">
-			    <input type="submit" name="action" value="Accept Invitation"/>
-				<input type="hidden" name="activityid" value="'.$row['ACTIVITYID'].'"/>
-					<input type="hidden" name="activityuserid" value = "'.$row['USERID'].'"/>
-			    </form>';
+				echo 'Invited';
 			}
 			else if($row['IFAPPLYING'] == 1){
 				echo "Applying";
